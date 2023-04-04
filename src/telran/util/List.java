@@ -6,5 +6,8 @@ public interface List<T> extends Collection<T> {
 	T remove(int index);
 
 	T get(int index);
+
+	int indexOf(T pattern);
+
+	int lastIndexOf(T pattern);
 }
- 
