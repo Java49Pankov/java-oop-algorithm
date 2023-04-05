@@ -24,7 +24,7 @@ public class ArrayList<T> implements List<T> {
 			reallocate();
 		}
 		array[size] = obj;
-		size++;
+		size++; 
 		return true;
 	}
 
@@ -64,27 +64,25 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public boolean remove(T pattern) {
 		boolean res = false;
-		int index = 0;
-		while (index < size && res == false) {
-			if (isEqual(array[index], pattern)) {
-				remove(index);
-				res = true;
-			}
-			index++;
+		int index = indexOf(pattern);
+		if (index > -1) {
+			remove(index);
+			res = true;
 		}
 		return res;
 	}
 
 	@Override
-	public T[] toArray(T[] array) {
-		if (array.length < size) {
-			array = Arrays.copyOf(array, size);
+	public T[] toArray(T[] arr) {
+		T[] arrCopy = arr;
+		if (arr.length < size) {
+				arrCopy = (T[]) new Object[size];
 		}
-		System.arraycopy(array, 0, array, 0, size);
-		if (array.length > size) {
-			array[size] = null;
+		System.arraycopy(array, 0, arrCopy, 0, size);
+		if (arrCopy.length > size) {
+			arrCopy[size] = null;
 		}
-		return array;
+		return arrCopy;
 	}
 
 	@Override

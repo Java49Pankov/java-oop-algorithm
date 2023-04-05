@@ -14,7 +14,7 @@ class ArrayListTest {
 
 	@BeforeEach
 	void setUp() {
-		list = new ArrayList<>();
+		list = new ArrayList<>(1);
 		for (int i = 0; i < numbers.length; i++) {
 			list.add(numbers[i]);
 		}
@@ -42,11 +42,11 @@ class ArrayListTest {
 	private void runTest(Integer[] expected) {
 		int size = list.size();
 		Integer[] actual = new Integer[expected.length];
-//		for (int i = 0; i < size; i++) {
-//			actual[i] = list.get(i);
-//		}
-		actual = list.toArray(expected);
-		assertArrayEquals(expected, actual);		
+		for (int i = 0; i < size; i++) {
+			actual[i] = list.get(i);
+		}
+//		actual = list.toArray(expected);
+		assertArrayEquals(expected, actual);
 	}
 
 	@Test
@@ -94,8 +94,13 @@ class ArrayListTest {
 		assertEquals(numbers.length - 2, list.size());
 	}
 
-	@Test
+	@Test 
 	void testToArray() {
-	
+		Integer[] expected = { 10, -20, 7, 50, 100, 30 };
+		Integer[] expected1 = { 10, -20, 7, 50, 100, 30, null };
+		Integer[] arrActual = list.toArray(new Integer[6]);
+		assertArrayEquals(expected, arrActual);
+		Integer[] arrActual1 = list.toArray(new Integer[7]);
+		assertArrayEquals(expected1, arrActual1);
 	}
 }
