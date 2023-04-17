@@ -1,6 +1,7 @@
 package telran.util;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class ArrayList<T> implements List<T> {
 	private static final int DEFAULT_CAPACITY = 16;
@@ -24,7 +25,7 @@ public class ArrayList<T> implements List<T> {
 			reallocate();
 		}
 		array[size] = obj;
-		size++; 
+		size++;
 		return true;
 	}
 
@@ -73,16 +74,16 @@ public class ArrayList<T> implements List<T> {
 	}
 
 	@Override
-	public T[] toArray(T[] arr) {
-		T[] arrCopy = arr;
-		if (arr.length < size) {
-				arrCopy = (T[]) new Object[size];
+	public T[] toArray(T[] array) {
+		if (array.length < size) {
+			array = Arrays.copyOf(array, size);
 		}
-		System.arraycopy(array, 0, arrCopy, 0, size);
-		if (arrCopy.length > size) {
-			arrCopy[size] = null;
+		System.arraycopy(this.array, 0, array, 0, size);
+		if (array.length > size) {
+			array[size] = null;
+
 		}
-		return arrCopy;
+		return array;
 	}
 
 	@Override
@@ -114,4 +115,29 @@ public class ArrayList<T> implements List<T> {
 		}
 		return res;
 	}
+
+	@Override
+	public void sort() {
+		Arrays.sort(array, 0, size);
+	}
+
+	@Override
+	public void sort(Comparator<T> comp) {
+//	Arrays.sort(array, 0, size, comp);
+		for (int i = 0; i < size() - 1; i++) {
+			for (int j = 0; j < size() - i - 1; j++) {
+				if (comp.compare(array[i + 1], array[j]) > 0) {
+					T temp = array[i - 1];
+					array[i - 1] = array[i];
+					array[i] = temp;
+				}
+			}
+		}
+	}
+
+	@Override
+	public void sort1(Comparator<T> comp) {
+		Arrays.sort(array, 0, size, comp);		
+	}
+
 }

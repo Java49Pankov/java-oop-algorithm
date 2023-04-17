@@ -1,5 +1,7 @@
 package telran.util;
 
+import java.util.Comparator;
+
 public interface List<T> extends Collection<T> {
 	void add(int index, T obj);
 
@@ -10,4 +12,11 @@ public interface List<T> extends Collection<T> {
 	int indexOf(T pattern);
 
 	int lastIndexOf(T pattern);
+
+	void sort();
+
+	void sort(Comparator<T> comp);
+	
+	void sort1(Comparator<T> comp);
+
 }
