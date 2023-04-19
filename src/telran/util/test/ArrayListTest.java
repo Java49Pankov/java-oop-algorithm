@@ -165,7 +165,7 @@ class ArrayListTest {
 		persons.add(p1);
 		persons.add(p2);
 		persons.add(p3);
-
+ 
 		Person expected[] = { p2, p1, p3 };
 		persons.sort(new PersonsAgeComparator());
 		assertArrayEquals(expected, persons.toArray(new Person[0]));
@@ -173,9 +173,9 @@ class ArrayListTest {
 
 	@Test
 	public void testSortEvenOdd1() {
-		Integer expected[] = { -20, 10, 30, 50, 100, 17, 7 };
-		list.add(17);
-		list.sort1(new EvenOddComparator());
+		Integer expected[] = { -20, 10, 30, 50, 100, 7, -17 };
+		list.add(-17);
+		list.sort(new EvenOddComparator());
 		Integer actualArray[] = list.toArray(new Integer[0]);
 		assertArrayEquals(expected, actualArray);
 	}

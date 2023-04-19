@@ -124,20 +124,23 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public void sort(Comparator<T> comp) {
 //	Arrays.sort(array, 0, size, comp);
-		for (int i = 0; i < size() - 1; i++) {
-			for (int j = 0; j < size() - i - 1; j++) {
-				if (comp.compare(array[i + 1], array[j]) > 0) {
-					T temp = array[i - 1];
-					array[i - 1] = array[i];
-					array[i] = temp;
+		int n = size;
+		boolean flUnSort = true;
+		do {
+			flUnSort = false;
+			n--;
+			for (int i = 0; i < n; i++) {
+				if (comp.compare(array[i], array[i + 1]) > 0) {
+					swap(i);
+					flUnSort = true;
 				}
 			}
-		}
+		} while (flUnSort);
 	}
 
-	@Override
-	public void sort1(Comparator<T> comp) {
-		Arrays.sort(array, 0, size, comp);		
+	private void swap(int ind) { 
+		T temp = array[ind + 1];
+		array[ind + 1] = array[ind];
+		array[ind] = temp;
 	}
-
 }
