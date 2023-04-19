@@ -116,14 +116,15 @@ public class ArrayList<T> implements List<T> {
 		return res;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void sort() {
-		Arrays.sort(array, 0, size);
+//		Arrays.sort(array, 0, size);
+		sort((Comparator<T>) Comparator.naturalOrder());
 	}
 
 	@Override
 	public void sort(Comparator<T> comp) {
-//	Arrays.sort(array, 0, size, comp);
 		int n = size;
 		boolean flUnSort = true;
 		do {
@@ -138,9 +139,9 @@ public class ArrayList<T> implements List<T> {
 		} while (flUnSort);
 	}
 
-	private void swap(int ind) { 
-		T temp = array[ind + 1];
-		array[ind + 1] = array[ind];
-		array[ind] = temp;
+	private void swap(int ind) {
+		T temp = array[ind];
+		array[ind] = array[ind + 1];
+		array[ind + 1] = temp;
 	}
 }

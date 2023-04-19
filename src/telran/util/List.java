@@ -16,7 +16,5 @@ public interface List<T> extends Collection<T> {
 	void sort();
 
 	void sort(Comparator<T> comp);
-	
-//	void sort1(Comparator<T> comp);
 
 }
