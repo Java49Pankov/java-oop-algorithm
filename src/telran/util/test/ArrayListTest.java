@@ -43,16 +43,6 @@ class ArrayListTest {
 		runTest(expected0_500_3_700_8_300);
 	}
 
-	private void runTest(Integer[] expected) {
-		int size = list.size();
-		Integer[] actual = new Integer[expected.length];
-		for (int i = 0; i < size; i++) {
-			actual[i] = list.get(i);
-		}
-//		actual = list.toArray(expected); 
-		assertArrayEquals(expected, actual);
-	}
-
 	@Test
 	void testRemoveIndex() {
 		Integer[] expectedNo10 = { -20, 7, 50, 100, 30 };
@@ -75,15 +65,14 @@ class ArrayListTest {
 	void testIndexOf() {
 		list.add(3, 10);
 		assertEquals(0, list.indexOf(10));
-		assertEquals(-1, list.indexOf(null));
+		assertEquals(-1, list.indexOf((Integer) null));
 	}
 
 	@Test
 	void testLastIndexOf() {
-		list.add(1, 30);
-		assertEquals(6, list.lastIndexOf(30));
-		assertEquals(0, list.lastIndexOf(10));
-		assertEquals(7, list.lastIndexOf(null));
+		list.add(3, 10);
+		assertEquals(3, list.lastIndexOf(10));
+		assertEquals(-1, list.lastIndexOf((Integer) null));
 	}
 
 	@Test
@@ -165,18 +154,67 @@ class ArrayListTest {
 		persons.add(p1);
 		persons.add(p2);
 		persons.add(p3);
- 
-		Person expected[] = { p2, p1, p3 };
-		persons.sort(new PersonsAgeComparator());
+
+		Person expected[] = { p3, p1, p2 };
+		persons.sort((pers1, pers2) -> Integer.compare(pers2.getAge(), pers1.getAge()));
 		assertArrayEquals(expected, persons.toArray(new Person[0]));
 	}
 
 	@Test
-	public void testSortEvenOdd1() {
+	void testSortEvenOddSorting() {
 		Integer expected[] = { -20, 10, 30, 50, 100, 7, -17 };
 		list.add(-17);
-		list.sort(new EvenOddComparator());
+		list.sort(ArrayListTest::evenOddCompare);
+//		list.sort((a, b) -> evenOddCompare(a, b));
+//		list.sort((a,b)->{
+//			int res = Math.abs(a % 2) - Math.abs(b % 2);
+//			if (res == 0) {
+//				res = a % 2 == 0 ? a - b : b - a;
+//			}
+//			return res;
+//		});
 		Integer actualArray[] = list.toArray(new Integer[0]);
 		assertArrayEquals(expected, actualArray);
 	}
+
+	@Test
+	void testIndexOfPredicate() {
+		assertEquals(1, list.indexOf(a -> a < 0));
+		list.add(-17);
+		assertEquals(-1, list.indexOf(a -> a % 2 != 0 && a > 7));
+	}
+
+	@Test
+	void testLastIndexOfPredicate() {
+		assertEquals(1, list.indexOf(a -> a < 0));
+		list.add(-17);
+		assertEquals(-1, list.indexOf(a -> a % 2 != 0 && a > 7));
+
+	}
+
+	@Test
+	void testRemoveIfAll() {
+		assertTrue(list.removeIf(a -> a % 2 != 0));
+		assertEquals(3, list.size());
+		assertTrue(list.removeIf(i -> i % 2 == 0));
+		assertEquals(1, list.size());
+	}
+
+	static private int evenOddCompare(Integer a, Integer b) {
+		int res = Math.abs(a % 2) - Math.abs(b % 2);
+		if (res == 0) {
+			res = a % 2 == 0 ? a - b : b - a;
+		}
+		return res;
+	}
+
+	private void runTest(Integer[] expected) {
+		int size = list.size();
+		Integer[] actual = new Integer[expected.length];
+		for (int i = 0; i < size; i++) {
+			actual[i] = list.get(i);
+		}
+		assertArrayEquals(expected, actual);
+	}
+
 }

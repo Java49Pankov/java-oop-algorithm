@@ -2,6 +2,7 @@ package telran.util;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 public class ArrayList<T> implements List<T> {
 	private static final int DEFAULT_CAPACITY = 16;
@@ -106,7 +107,7 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public int lastIndexOf(T pattern) {
 		int res = -1;
-		int index = size;
+		int index = size - 1;
 		while (index >= 0 && res == -1) {
 			if (isEqual(array[index], pattern)) {
 				res = index;
@@ -144,4 +145,41 @@ public class ArrayList<T> implements List<T> {
 		array[ind] = array[ind + 1];
 		array[ind + 1] = temp;
 	}
+
+	@Override
+	public int indexOf(Predicate<T> predicate) {
+		int res = -1;
+		int index = 0;
+		while (index < size && res == -1) {
+			if (predicate.test(array[index])) {
+				res = index;
+			}
+			index++;
+		}
+		return res;
+	}
+
+	@Override
+	public int lastIndexOf(Predicate<T> predicate) {
+		int res = -1;
+		int index = size - 1;
+		while (index >= 0 && res == -1) {
+			if (predicate.test(array[index]))
+				res = index;
+		}
+		index--;
+		return res;
+	}
+
+	@Override
+	public boolean removeIf(Predicate<T> predicate) {
+		boolean res = false;
+		for (int ind = 0; ind <= size - 1; ind++) {
+			if (predicate.test(remove(ind))) {
+				res = true;
+			}
+		}
+		return res;
+	}
+
 }
