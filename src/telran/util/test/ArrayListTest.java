@@ -194,10 +194,16 @@ class ArrayListTest {
 
 	@Test
 	void testRemoveIfAll() {
+		assertTrue(list.removeIf(a -> true));
+		assertEquals(0, list.size());
+	}
+
+	@Test
+	void testRemoveIfPredicate() {
+		assertFalse(list.removeIf(a -> a % 2 != 0 && a >= 10));
+		Integer[] expected = { 10, -20, 50, 100, 30 };
 		assertTrue(list.removeIf(a -> a % 2 != 0));
-		assertEquals(3, list.size());
-		assertTrue(list.removeIf(i -> i % 2 == 0));
-		assertEquals(1, list.size());
+		runTest(expected);
 	}
 
 	static private int evenOddCompare(Integer a, Integer b) {
