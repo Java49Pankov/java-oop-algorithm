@@ -15,41 +15,64 @@ public class InitialAlgorithms {
 		}
 	}
 
-	public static boolean issum(short[] array, short sum) {
+	public static boolean isSum2(short[] array, short sum) {
+		int helperSize = sum < 0 ? Short.MAX_VALUE + 1 : sum + 1;
+		boolean[] helper = new boolean[helperSize];
 		boolean res = false;
-		for (int i = 0; i < array.length; i++) {
-			for (int j = 1; j < array.length; j++) {
-				if (array[i] + array[j] == sum) {
+		int index = 0;
+		while (index < array.length && !res) {
+			short value = array[index];
+			short secondValue = (short) (sum - value);
+			if (secondValue >= 0) {
+				if (helper[secondValue]) {
 					res = true;
+				} else {
+					helper[value] = true;
+				}
+			}
+			index++;
+		}
+		return res;
+	}
+
+	public static short getMaxPositiveWithNegativeReflect(short[] array) {
+		short res = -1;
+		byte[] helper = new byte[Short.MAX_VALUE];
+		short candidate = -1;
+		for (int i = 0; i < array.length; i++) {
+			candidate = (short) Math.abs(array[i]);
+			if (array[i] < 0) {
+				if (helper[candidate] == 1 && candidate > res) {
+					res = candidate;
+				} else if (helper[candidate] == 0) {
+					helper[candidate] = -1;
+				}
+			} else {
+				if (helper[candidate] == -1 && candidate > res) {
+					res = candidate;
+				} else if (helper[candidate] == 0) {
+					helper[candidate] = 1;
 				}
 			}
 		}
 		return res;
 	}
 
-	public static short getMaxPositiveWithNegativeReflect(short[] array) {
-		short copyNumber = array[0];
-		for (int ind = 1; ind < array.length; ind++) {
-			if (copyNumber < array[ind]) {
-				copyNumber = array[ind];
-			}
-		}
-		return copyNumber > 0 ? copyNumber : -1;
-	}
-
-	public static void bubbleSort(short[] arr) {
-		boolean swap;
+	public static void bubbleSort(short[] array) {
+		int size = array.length;
+		boolean flUnsorted = false;
 		do {
-			swap = false;
-			for (int i = 0; i < arr.length-1; i++) {
-				if (arr[i] > arr[i + 1]) {
-					short temp = arr[i];
-					arr[i] = arr[i + 1];
-					arr[i + 1] = temp;
-					swap = true;
+			size--;
+			flUnsorted = false;
+			for (int i = 0; i < size; i++) {
+				if (array[i] > array[i + 1]) {
+					short tmp = array[i];
+					array[i] = array[i + 1];
+					array[i + 1] = tmp;
+					flUnsorted = true;
 				}
 			}
-		} while (swap);
+		} while (flUnsorted);
 	}
-
+	
 }
