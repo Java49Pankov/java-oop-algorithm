@@ -2,4 +2,5 @@
 /.classpath
 /.project
 .settings
-
+src/telran/algorithm/*.class
+src/telran/algorithm/test/*.class

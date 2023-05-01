@@ -48,10 +48,10 @@ class InitialAlgorithmsTest {
 	void isSum2Test() {
 		short[] array = { 30000, 1, 5, 2, 10000, 0, 500, 0 };
 		short[] array1 = { 30000, 1, 5, 2, 10000, 0, 500, 0, Short.MAX_VALUE };
-//		assertTrue(isSum2(array, (short)30000));
-//		assertTrue(isSum2(array, (short)7));
-//		assertFalse(isSum2(array, (short)30003));
-//		assertFalse(isSum2(array, (short)8));
+		assertTrue(isSum2(array, (short) 30000));
+		assertTrue(isSum2(array, (short) 7));
+		assertFalse(isSum2(array, (short) 30003));
+		assertFalse(isSum2(array, (short) 8));
 		assertTrue(isSum2(array1, Short.MIN_VALUE));
 	}
 
@@ -63,6 +63,32 @@ class InitialAlgorithmsTest {
 		assertEquals(100, getMaxPositiveWithNegativeReflect(array));
 		assertEquals(40, getMaxPositiveWithNegativeReflect(array1));
 		assertEquals(-1, getMaxPositiveWithNegativeReflect(array2));
+	}
+
+	@Test
+	void maxValueComplexityNTest() {
+		assertEquals(Integer.MAX_VALUE, getMaxValueComplexityN());
+	}
+
+	@Test
+	void maxValueComplexityLogNTest() {
+		assertEquals(Integer.MAX_VALUE, getMaxValueComplexityLogN());
+	}
+
+	private Integer getMaxValueComplexityN() {
+		int res = 1;
+		while (res > 0) {
+			res++;
+		}
+		return res - 1;
+	}
+
+	private Integer getMaxValueComplexityLogN() {
+		int res = 1;
+		while (res > 0) {
+			res *= 2;
+		}
+		return res - 1;
 	}
 
 }

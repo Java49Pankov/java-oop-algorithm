@@ -1,5 +1,7 @@
 package telran.algorithm;
 
+import java.util.Comparator;
+
 public class InitialAlgorithms {
 
 	public static void sortShortPositive(short[] array) {
@@ -42,18 +44,19 @@ public class InitialAlgorithms {
 		for (int i = 0; i < array.length; i++) {
 			candidate = (short) Math.abs(array[i]);
 			if (array[i] < 0) {
-				if (helper[candidate] == 1 && candidate > res) {
-					res = candidate;
-				} else if (helper[candidate] == 0) {
-					helper[candidate] = -1;
-				}
+				res = getRes(res, helper, candidate, 1);
 			} else {
-				if (helper[candidate] == -1 && candidate > res) {
-					res = candidate;
-				} else if (helper[candidate] == 0) {
-					helper[candidate] = 1;
-				}
+				res = getRes(res, helper, candidate, -1);
 			}
+		}
+		return res;
+	}
+
+	private static short getRes(short res, byte[] helper, short candidate, int sign) {
+		if (helper[candidate] == 1 * sign && candidate > res) {
+			res = candidate;
+		} else if (helper[candidate] == 0) {
+			helper[candidate] = (byte) (-1 * sign);
 		}
 		return res;
 	}
@@ -74,5 +77,22 @@ public class InitialAlgorithms {
 			}
 		} while (flUnsorted);
 	}
-	
+
+	public static <T> int binarySearch(T[] array, T key, Comparator<T> comp) {
+		int leftIndex = 0;
+		int rightIndex = array.length - 1;
+		int middleIndex = rightIndex / 2;
+		int compRes = 0;
+		while (leftIndex <= rightIndex && (compRes = comp.compare(key, array[middleIndex])) != 0) {
+			if (compRes > 0) {
+				// move to right part of the array;
+				leftIndex = middleIndex + 1;
+			} else {
+				rightIndex = middleIndex - 1;
+			}
+			middleIndex = (leftIndex + rightIndex) / 2;
+		}
+		return leftIndex > rightIndex ? -1 : middleIndex; 
+	}
+
 }
