@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static telran.algorithm.InitialAlgorithms.*;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -73,6 +74,18 @@ class InitialAlgorithmsTest {
 	@Test
 	void maxValueComplexityLogNTest() {
 		assertEquals(Integer.MAX_VALUE, getMaxValueComplexityLogN());
+	}
+
+	@Test
+	void binarySearchTest() {
+		Integer[] numbers = { 1, 3, 3, 3, 3, 5, 6 };
+		assertEquals(1, binarySearch(numbers, 3, Comparator.naturalOrder()));
+		assertEquals(5, binarySearch(numbers, 5, Comparator.naturalOrder()));
+		assertEquals(0, binarySearch(numbers, 1, Comparator.naturalOrder()));
+		assertEquals(-1, binarySearch(numbers, 0, Comparator.naturalOrder()));
+		assertEquals(-2, binarySearch(numbers, 2, Comparator.naturalOrder()));
+		assertEquals(-8, binarySearch(numbers, 10, Comparator.naturalOrder()));
+
 	}
 
 	private Integer getMaxValueComplexityN() {

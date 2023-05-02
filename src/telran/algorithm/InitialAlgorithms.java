@@ -85,14 +85,16 @@ public class InitialAlgorithms {
 		int compRes = 0;
 		while (leftIndex <= rightIndex && (compRes = comp.compare(key, array[middleIndex])) != 0) {
 			if (compRes > 0) {
-				// move to right part of the array;
 				leftIndex = middleIndex + 1;
 			} else {
 				rightIndex = middleIndex - 1;
 			}
 			middleIndex = (leftIndex + rightIndex) / 2;
 		}
-		return leftIndex > rightIndex ? -1 : middleIndex; 
+		while (middleIndex > 0 && comp.compare(key, array[middleIndex - 1]) == 0) {
+			middleIndex--;
+		}
+		return leftIndex > rightIndex ? -(leftIndex + 1) : middleIndex;
 	}
 
 }
