@@ -78,14 +78,14 @@ class InitialAlgorithmsTest {
 
 	@Test
 	void binarySearchTest() {
-		Integer[] numbers = { 1, 3, 3, 3, 3, 5, 6 };
-		assertEquals(1, binarySearch(numbers, 3, Comparator.naturalOrder()));
-		assertEquals(5, binarySearch(numbers, 5, Comparator.naturalOrder()));
-		assertEquals(0, binarySearch(numbers, 1, Comparator.naturalOrder()));
-		assertEquals(-1, binarySearch(numbers, 0, Comparator.naturalOrder()));
-		assertEquals(-2, binarySearch(numbers, 2, Comparator.naturalOrder()));
-		assertEquals(-8, binarySearch(numbers, 10, Comparator.naturalOrder()));
-
+		Integer array[] = { 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 4, 20, 40 };
+		assertEquals(-14, binarySearch(array, 3, Integer::compare));
+		assertEquals(3, binarySearch(array, 2, Integer::compare));
+		assertEquals(-1, binarySearch(array, 0, Integer::compare));
+		assertEquals(13, binarySearch(array, 4, Integer::compare));
+		assertEquals(0, binarySearch(array, 1, Integer::compare));
+		assertEquals(-16, binarySearch(array, 25, Integer::compare));
+		assertEquals(-17, binarySearch(array, 45, Integer::compare));
 	}
 
 	private Integer getMaxValueComplexityN() {

@@ -79,22 +79,18 @@ public class InitialAlgorithms {
 	}
 
 	public static <T> int binarySearch(T[] array, T key, Comparator<T> comp) {
-		int leftIndex = 0;
-		int rightIndex = array.length - 1;
-		int middleIndex = rightIndex / 2;
-		int compRes = 0;
-		while (leftIndex <= rightIndex && (compRes = comp.compare(key, array[middleIndex])) != 0) {
-			if (compRes > 0) {
-				leftIndex = middleIndex + 1;
+		int left = 0;
+		int right = array.length - 1;
+		int middle = right / 2;
+		while (left <= right && comp.compare(key, array[left]) != 0) {
+			if (comp.compare(key, array[middle]) <= 0) {
+				right = middle - 1;
 			} else {
-				rightIndex = middleIndex - 1;
+				left = middle + 1;
 			}
-			middleIndex = (leftIndex + rightIndex) / 2;
+			middle = (right + left) / 2;
 		}
-		while (middleIndex > 0 && comp.compare(key, array[middleIndex - 1]) == 0) {
-			middleIndex--;
-		}
-		return leftIndex > rightIndex ? -(leftIndex + 1) : middleIndex;
+		return left < array.length && comp.compare(key, array[left]) == 0 ? left : -left - 1;
 	}
 
 }
