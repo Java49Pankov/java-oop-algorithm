@@ -2,16 +2,18 @@ package telran.algorithm;
 
 public class MemoryService {
 	public static int getMaxAvailableSize() {
-		int res = Integer.MAX_VALUE;
-		boolean running = true;
-		while (running) {
+		int left = 1;
+		long right = Integer.MAX_VALUE;
+		int middle = (int) right / 2;
+		while (left <= right) {
 			try {
-				byte[] array = new byte[res];
-				running = false;
+				byte[] array = new byte[middle];
+				left = middle + 1;
 			} catch (OutOfMemoryError e) {
-				res /= 2;
+				right = middle - 1;
 			}
+			middle = (int) ((left + right) / 2);
 		}
-		return res;
+		return (int) right;
 	}
 }
