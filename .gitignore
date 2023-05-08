@@ -1,5 +1,9 @@
-/bin/
-/telran.classpath
-/.project
-.settings
 
+/.project
+/.settings
+/bin
+
+
+
+
+/.classpath

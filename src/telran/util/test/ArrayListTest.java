@@ -14,6 +14,7 @@ class ArrayListTest {
 	private static final int BIG_LENGTH = 100000;
 
 	List<Integer> list;
+	
 	Integer[] numbers = { 10, -20, 7, 50, 100, 30 };
 
 	@BeforeEach
