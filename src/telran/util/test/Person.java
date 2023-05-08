@@ -9,12 +9,12 @@ public class Person implements Comparable<Person> {
 		this.id = id;
 		this.age = age;
 		this.name = name;
-	} 
+	}
 
-	public long getId() { 
+	public long getId() {
 		return id;
 	}
- 
+
 	public int getAge() {
 		return age;
 	}
