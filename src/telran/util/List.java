@@ -22,5 +22,5 @@ public interface List<T> extends Collection<T> {
 
 	int lastIndexOf(Predicate<T> predicate);
 
-	boolean removeIf(Predicate<T> predicate);
+	
 }

@@ -42,20 +42,20 @@ public class LinkedList<T> implements List<T> {
 	}
 
 	@Override
-	public T[] toArray(T[] ar) {
-		if (ar.length < size) {
-			ar = Arrays.copyOf(ar, size);
+	public T[] toArray(T[] array) {
+		if (array.length < size) {
+			array = Arrays.copyOf(array, size);
 		}
 		Node<T> current = head;
 		int index = 0;
 		while (current != null) {
-			ar[index++] = current.obj;
+			array[index++] = current.obj;
 			current = current.next;
 		}
-		if (ar.length > size) {
-			ar[size] = null;
+		if (array.length > size) {
+			array[size] = null;
 		}
-		return ar;
+		return array;
 	}
 
 	@Override
@@ -75,7 +75,9 @@ public class LinkedList<T> implements List<T> {
 		}
 		Node<T> node = getNode(index);
 		removeNode(node);
-		return node.obj;
+		T res = node.obj;
+		node.obj = null;
+		return res;
 	}
 
 	@Override
@@ -83,7 +85,6 @@ public class LinkedList<T> implements List<T> {
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException(index);
 		}
-
 		return getNode(index).obj;
 	}
 
@@ -97,16 +98,23 @@ public class LinkedList<T> implements List<T> {
 		return lastIndexOf(obj -> isEqual(obj, pattern));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void sort() {
-		// no implement
-
+		sort((Comparator<T>) Comparator.naturalOrder());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void sort(Comparator<T> comp) {
-		// no implement
-
+		 T[] arraySort = toArray((T[]) new Object[0]);
+		  Arrays.sort(arraySort, comp);
+		  Node<T> current = head;
+		  int index = 0;
+		  while (current != null) {
+		    current.obj = arraySort[index++];
+		    current = current.next;
+		  }	
 	}
 
 	@Override
@@ -115,7 +123,7 @@ public class LinkedList<T> implements List<T> {
 		Node<T> current = head;
 		while (current != null && !predicate.test(current.obj)) {
 			current = current.next;
-			index++;
+			index++; 
 		}
 		return current == null ? -1 : index;
 	}
@@ -142,7 +150,6 @@ public class LinkedList<T> implements List<T> {
 				removeNode(current);
 			}
 			current = next;
-
 		}
 		return oldSize > size;
 	}
@@ -181,7 +188,6 @@ public class LinkedList<T> implements List<T> {
 		node.next = nodeA;
 		nodeBefore.next = node;
 		nodeA.prev = node;
-
 	}
 
 	private Node<T> getNode(int index) {
@@ -211,7 +217,6 @@ public class LinkedList<T> implements List<T> {
 		}
 		head.next = null;
 		head = newHead;
-
 	}
 
 	private void removeTail() {
