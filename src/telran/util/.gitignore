@@ -1,3 +1,6 @@
 /LinkedList$Node.class
 /LinkedList.class
 /ArrayListTest.class
+/ArrayList$ArrayListIterator.class
+/LinkedList$LinkedListIterator.class
+/Range$RangeIterator.class

@@ -1,6 +1,10 @@
 package telran.util.test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,13 +18,12 @@ public abstract class CollectionTest {
 
 	protected Collection<Integer> collection;
 
-	void runTest(Integer[] expected) {
-		Integer[] actual = new Integer[expected.length];
-		collection.toArray(actual);
+	abstract protected Collection<Integer> getCollection();
+
+	protected void runTest(Integer[] expected) {
+		Integer[] actual = collection.toArray(new Integer[0]);
 		assertArrayEquals(expected, actual);
 	}
-
-	abstract protected Collection<Integer> getCollection();
 
 	@BeforeEach
 	void setUp() {
@@ -37,6 +40,14 @@ public abstract class CollectionTest {
 	}
 
 	@Test
+	void testContains() {
+		assertTrue(collection.contains(10));
+		assertTrue(collection.contains(-20));
+		assertFalse(collection.contains(15));
+		assertFalse(collection.contains(-50));
+	}
+
+	@Test
 	void testToArray() {
 		Integer[] expected = { 10, -20, 7, 50, 100, 30 };
 		Integer[] expected1 = { 10, -20, 7, 50, 100, 30, null };
@@ -44,6 +55,11 @@ public abstract class CollectionTest {
 		assertArrayEquals(expected, arrActual);
 		Integer[] arrActual1 = collection.toArray(new Integer[7]);
 		assertArrayEquals(expected1, arrActual1);
+		Iterator<Integer> it = collection.iterator();
+		for (int i = 0; i < numbers.length; i++) {
+			it.next();
+		}
+		assertThrows(NoSuchElementException.class, () -> it.next());
 	}
 
 	@Test

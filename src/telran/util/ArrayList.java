@@ -2,6 +2,8 @@ package telran.util;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 public class ArrayList<T> implements List<T> {
@@ -11,6 +13,29 @@ public class ArrayList<T> implements List<T> {
 
 	private int size;
 
+	private class ArrayListIterator implements Iterator<T> {
+		int current = 0;
+
+		@Override
+		public boolean hasNext() {
+			return current < size;
+		}
+
+		@Override
+		public T next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			return array[current++];
+		}
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return new ArrayListIterator();
+	}
+
+	
 	@SuppressWarnings("unchecked")
 	public ArrayList(int capacity) {
 		array = (T[]) new Object[capacity];
@@ -71,51 +96,6 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public int size() {
 		return size;
-	}
-
-	@Override
-	public boolean remove(T pattern) {
-		boolean res = false;
-		int index = indexOf(pattern);
-		if (index > -1) {
-			remove(index);
-			res = true;
-		}
-		return res;
-	}
-
-	@Override
-	public T[] toArray(T[] array) {
-		if (array.length < size) {
-			array = Arrays.copyOf(array, size);
-		}
-		System.arraycopy(this.array, 0, array, 0, size);
-		if (array.length > size) {
-			array[size] = null;
-
-		}
-		return array;
-	}
-
-	@Override
-	public int indexOf(T pattern) {
-		return indexOf(obj -> isEqual(obj, pattern));
-	}
-
-	private boolean isEqual(T object, T pattern) {
-		return pattern == null ? object == pattern : pattern.equals(object);
-	}
-
-	@Override
-	public int lastIndexOf(T pattern) {
-		return lastIndexOf(obj -> isEqual(obj, pattern));
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void sort() {
-//		Arrays.sort(array, 0, size);
-		sort((Comparator<T>) Comparator.naturalOrder());
 	}
 
 	@Override

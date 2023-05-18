@@ -2,12 +2,37 @@ package telran.util;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 public class LinkedList<T> implements List<T> {
 	Node<T> head;
 	Node<T> tail;
 	int size;
+
+	private class LinkedListIterator implements Iterator<T> {
+		Node<T> current = head;
+
+		public boolean hasNext() {
+			return current != null;
+		}
+
+		@Override
+		public T next() {
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			T res = current.obj;
+			current = current.next;
+			return res;
+		}
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return new LinkedListIterator();
+	}
 
 	private static class Node<T> {
 		T obj;
@@ -28,34 +53,6 @@ public class LinkedList<T> implements List<T> {
 	@Override
 	public int size() {
 		return size;
-	}
-
-	@Override
-	public boolean remove(T pattern) {
-		boolean res = false;
-		int index = indexOf(pattern);
-		if (index > -1) {
-			res = true;
-			remove(index);
-		}
-		return res;
-	}
-
-	@Override
-	public T[] toArray(T[] array) {
-		if (array.length < size) {
-			array = Arrays.copyOf(array, size);
-		}
-		Node<T> current = head;
-		int index = 0;
-		while (current != null) {
-			array[index++] = current.obj;
-			current = current.next;
-		}
-		if (array.length > size) {
-			array[size] = null;
-		}
-		return array;
 	}
 
 	@Override
@@ -88,33 +85,27 @@ public class LinkedList<T> implements List<T> {
 		return getNode(index).obj;
 	}
 
-	@Override
-	public int indexOf(T pattern) {
-		return indexOf(obj -> isEqual(obj, pattern));
-	}
-
-	@Override
-	public int lastIndexOf(T pattern) {
-		return lastIndexOf(obj -> isEqual(obj, pattern));
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public void sort() {
-		sort((Comparator<T>) Comparator.naturalOrder());
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
 	public void sort(Comparator<T> comp) {
-		 T[] arraySort = toArray((T[]) new Object[0]);
-		  Arrays.sort(arraySort, comp);
-		  Node<T> current = head;
-		  int index = 0;
-		  while (current != null) {
-		    current.obj = arraySort[index++];
-		    current = current.next;
-		  }	
+		T[] array = toArray();
+		Arrays.sort(array, comp);
+		Node<T> current = head;
+		int index = 0;
+		while (current != null) {
+			current.obj = array[index++];
+			current = current.next;
+		}
+	}
+
+	private T[] toArray() {
+		@SuppressWarnings("unchecked")
+		T[] array = (T[]) new Object[size];
+		Node<T> current = head;
+		int index = 0;
+		while (current != null) {
+			array[index++] = current.obj;
+			current = current.next;
+		}
+		return array;
 	}
 
 	@Override
@@ -123,7 +114,7 @@ public class LinkedList<T> implements List<T> {
 		Node<T> current = head;
 		while (current != null && !predicate.test(current.obj)) {
 			current = current.next;
-			index++; 
+			index++;
 		}
 		return current == null ? -1 : index;
 	}
@@ -245,10 +236,6 @@ public class LinkedList<T> implements List<T> {
 			removeMiddle(node);
 		}
 		size--;
-	}
-
-	private boolean isEqual(T object, T pattern) {
-		return pattern == null ? object == pattern : pattern.equals(object);
 	}
 
 }
