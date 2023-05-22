@@ -19,8 +19,8 @@ class RangeTest {
 
 	@Test
 	void toArrayTest() {
-		Integer[] excepted = { 10, 11, 12, 13 };
-		assertArrayEquals(excepted, range.toArray());
+		Integer[] expected = { 10, 11, 12, 13 };
+		assertArrayEquals(expected, range.toArray());
 	}
 
 	@Test
@@ -35,4 +35,27 @@ class RangeTest {
 		assertThrows(NoSuchElementException.class, () -> it2.next());
 	}
 
+	@Test
+	void iteratorRemove() {
+		Iterator<Integer> it = range.iterator();
+		Integer[] expectedFirst = { 11, 12, 13 };
+		Integer[] expectedLast = { 11, 12 };
+		assertThrowsExactly(IllegalStateException.class, () -> it.remove());
+		it.next();
+		it.remove();
+		assertArrayEquals(expectedFirst, range.toArray());
+		assertThrowsExactly(IllegalStateException.class, () -> it.remove());
+		while (it.hasNext()) {
+			it.next();
+		}
+		it.remove();
+		assertArrayEquals(expectedLast, range.toArray());
+	}
+
+	@Test
+	void removeIfTest() {
+		Range range1 = new Range(1, 4);
+		range1.removeIf(num -> num % 2 != 0);
+		assertArrayEquals(new Integer[] { 2 }, range1.toArray());
+	}
 }

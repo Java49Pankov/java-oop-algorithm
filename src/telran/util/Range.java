@@ -2,6 +2,7 @@ package telran.util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 public class Range implements Iterable<Integer> {
 	private int min;
@@ -30,6 +31,11 @@ public class Range implements Iterable<Integer> {
 			}
 			return current++;
 		}
+		
+		@Override
+		public void remove() {
+			//TODO
+		}
 	}
 
 	@Override
@@ -50,6 +56,11 @@ public class Range implements Iterable<Integer> {
 			array[index++] = it.next();
 		}		
 		return array;
+	}
+	
+	public boolean removeIf(Predicate<Integer> predicate) {
+		//TODO
+		return false;
 	}
 
 }

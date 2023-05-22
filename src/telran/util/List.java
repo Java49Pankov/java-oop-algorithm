@@ -39,7 +39,7 @@ public interface List<T> extends Collection<T> {
 			remove(index);
 		}
 		return res;
-	}
+	}	
 
 	@Override
 	default public boolean contains(T pattern) {
