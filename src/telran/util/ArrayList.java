@@ -106,9 +106,7 @@ public class ArrayList<T> implements List<T> {
 				array[indexA++] = array[i];
 			}
 		}
-		for (int i = indexB; i < size; i++) {
-			array[i] = null;
-		}  
+		array[size] = null;
 		size = indexB;
 		return oldSize > size;
 	}

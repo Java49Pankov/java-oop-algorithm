@@ -49,7 +49,7 @@ class RangeTest {
 			it.next();
 		}
 		it.remove();
-//		assertArrayEquals(expectedLast, range.toArray());
+		assertArrayEquals(expectedLast, range.toArray());
 	}
 
 	@Test
