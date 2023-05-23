@@ -7,6 +7,7 @@ import java.util.function.Predicate;
 public class Range implements Iterable<Integer> {
 	private int min;
 	private int max;
+	public LinkedList<Integer> listRemoved = new LinkedList<>();
 
 	public Range(int min, int max) {
 		if (min >= max) {
@@ -18,10 +19,11 @@ public class Range implements Iterable<Integer> {
 
 	private class RangeIterator implements Iterator<Integer> {
 		int current = min;
+		boolean flNext = false;
 
 		@Override
 		public boolean hasNext() {
-			return current < max;  
+			return current < max;
 		}
 
 		@Override
@@ -29,12 +31,32 @@ public class Range implements Iterable<Integer> {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
+			while (listRemoved.contains(current)) {
+				current++;
+			}
+			flNext = true;
 			return current++;
 		}
-		
-		@Override
+
 		public void remove() {
-			//TODO
+			if (!flNext) {
+				throw new IllegalStateException();
+			}
+			int obj = --current;
+			listRemoved.add(obj);
+			flNext = false;
+			current--;
+		}
+	}
+
+	public void removeIf(Predicate<Integer> predicate) {
+		Iterator<Integer> itr = iterator();
+		while (itr.hasNext()) {
+			int obj = itr.next();
+			if (predicate.test(obj)) {
+				itr.remove();
+				max--;
+			}
 		}
 	}
 
@@ -44,23 +66,12 @@ public class Range implements Iterable<Integer> {
 	}
 
 	public Integer[] toArray() {
-		Integer[] array = new Integer[max - min];
+		Integer[] array = new Integer[max - min - listRemoved.size()];
 		int index = 0;
-		// First way
-//		for (Integer num : this) {
-//			array[index++] = num;
-//		}
-		// second way
-		Iterator<Integer> it = iterator();
-		while (it.hasNext()) {
-			array[index++] = it.next();
-		}		
+		for (Integer num : this) {
+			array[index++] = num;
+		}
 		return array;
-	}
-	
-	public boolean removeIf(Predicate<Integer> predicate) {
-		//TODO
-		return false;
 	}
 
 }

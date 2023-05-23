@@ -109,16 +109,9 @@ public class LinkedList<T> implements List<T> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private T[] toArray() {
-		@SuppressWarnings("unchecked")
-		T[] array = (T[]) new Object[size];
-		Node<T> current = head;
-		int index = 0;
-		while (current != null) {
-			array[index++] = current.obj;
-			current = current.next;
-		}
-		return array;
+		return toArray((T[]) new Object[size]);
 	}
 
 	@Override

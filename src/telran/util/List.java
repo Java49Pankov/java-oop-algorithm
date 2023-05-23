@@ -1,6 +1,5 @@
 package telran.util;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.function.Predicate;
 
@@ -39,7 +38,7 @@ public interface List<T> extends Collection<T> {
 			remove(index);
 		}
 		return res;
-	}	
+	}
 
 	@Override
 	default public boolean contains(T pattern) {

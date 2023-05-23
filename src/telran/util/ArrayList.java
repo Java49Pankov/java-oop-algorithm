@@ -96,8 +96,21 @@ public class ArrayList<T> implements List<T> {
 
 	@Override
 	public boolean removeIf(Predicate<T> predicate) {
-		// TODO rewrite the romoveIf method of ArrayList for optimization O[N]
-		return false;
+		int oldSize = size;
+		int indexA = 0;
+		int indexB = size;
+		for (int i = 0; i < size; i++) {
+			if (predicate.test(array[i])) {
+				indexB--;
+			} else {
+				array[indexA++] = array[i];
+			}
+		}
+		for (int i = indexB; i < size; i++) {
+			array[i] = null;
+		}  
+		size = indexB;
+		return oldSize > size;
 	}
 
 	@Override
