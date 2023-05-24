@@ -5,9 +5,9 @@ import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 public class Range implements Iterable<Integer> {
-	public LinkedList<Integer> listRemoved = new LinkedList<>();
 	private int min;
 	private int max;
+	private List<Integer> removedList = new LinkedList<>();
 
 	public Range(int min, int max) {
 		if (min >= max) {
@@ -18,50 +18,47 @@ public class Range implements Iterable<Integer> {
 	}
 
 	private class RangeIterator implements Iterator<Integer> {
-		int current = min;
-		int curObj = min - 1;
+		Integer current = getCurrent(min - 1);
+		Integer prev = null;
 		boolean flNext = false;
 
 		@Override
 		public boolean hasNext() {
-			while (listRemoved.contains(current)) {
-				current++;
-			}
-			return current < max;
+			return current != null;
 		}
 
 		@Override
 		public Integer next() {
-			if (!hasNext()) {
+			if (current == null) {
 				throw new NoSuchElementException();
 			}
+			int currentNum = current;
+			prev = current;
+			current = getCurrent(current);
 			flNext = true;
-			curObj = current++;
-			return curObj;
+			return currentNum;
 		}
 
+		private Integer getCurrent(Integer current) {
+			Integer res = null;
+			current++;
+			while (current < max && res == null) {
+				if (!removedList.contains(current)) {
+					res = current;
+				}
+				current++;
+			}
+			return res;
+		}
+
+		@Override
 		public void remove() {
 			if (!flNext) {
 				throw new IllegalStateException();
 			}
-			if (!listRemoved.contains(curObj)) {
-				listRemoved.add(curObj);
-				current--;
-			}
+			removedList.add(prev);
 			flNext = false;
 		}
-	}
-
-	public boolean removeIf(Predicate<Integer> predicate) {
-		int oldSize = listRemoved.size();
-		Iterator<Integer> itr = iterator();
-		while (itr.hasNext()) {
-			int obj = itr.next();
-			if (predicate.test(obj)) {
-				itr.remove();
-			}
-		}
-		return oldSize > listRemoved.size();
 	}
 
 	@Override
@@ -70,12 +67,28 @@ public class Range implements Iterable<Integer> {
 	}
 
 	public Integer[] toArray() {
-		Integer[] array = new Integer[max - min - listRemoved.size()];
+		Integer[] array = new Integer[getSize()];
 		int index = 0;
 		for (Integer num : this) {
 			array[index++] = num;
 		}
 		return array;
+	}
+
+	public boolean removeIf(Predicate<Integer> predicate) {
+		int oldSize = getSize();
+		Iterator<Integer> it = iterator();
+		while (it.hasNext()) {
+			int number = it.next();
+			if (predicate.test(number)) {
+				it.remove();
+			}
+		}
+		return oldSize > getSize();
+	}
+
+	private int getSize() {
+		return max - min - removedList.size();
 	}
 
 }

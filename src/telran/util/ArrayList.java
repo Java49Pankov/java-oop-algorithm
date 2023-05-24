@@ -97,17 +97,17 @@ public class ArrayList<T> implements List<T> {
 	@Override
 	public boolean removeIf(Predicate<T> predicate) {
 		int oldSize = size;
-		int indexA = 0;
-		int indexB = size;
-		for (int i = 0; i < size; i++) {
-			if (predicate.test(array[i])) {
-				indexB--;
+		int indexDest = 0;
+		for(int indexSrc = 0; indexSrc < oldSize; indexSrc++) {
+			if (predicate.test(array[indexSrc])) {
+				size--;
 			} else {
-				array[indexA++] = array[i];
+				array[indexDest++] = array[indexSrc];
 			}
 		}
-		array[size] = null;
-		size = indexB;
+		for (int i = size; i < oldSize; i++) {
+			array[i] = null;
+		}
 		return oldSize > size;
 	}
 
