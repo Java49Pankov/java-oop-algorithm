@@ -12,7 +12,7 @@ import telran.util.Collection;
 
 public abstract class CollectionTest {
 
-	private static final int BIG_LENGTH = 100000;
+	protected static final int BIG_LENGTH = 100000;
 
 	protected Integer[] numbers = { 10, -20, 7, 50, 100, 30 };
 
@@ -92,7 +92,7 @@ public abstract class CollectionTest {
 	}
 
 	@Test
-	void testToArrayForBigArray() {
+	 void testToArrayForBigArray() {
 		Integer bigArray[] = new Integer[BIG_LENGTH];
 		for (int i = 0; i < BIG_LENGTH; i++) {
 			bigArray[i] = 10;

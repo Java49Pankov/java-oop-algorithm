@@ -4,3 +4,7 @@
 /ArrayList$ArrayListIterator.class
 /LinkedList$LinkedListIterator.class
 /Range$RangeIterator.class
+
+/HashSet.class
+/Set.class
+/HashSet$HashSetIterator.class
