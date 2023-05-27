@@ -2,6 +2,7 @@ package telran.util;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class HashSet<T> implements Set<T> {
 	private static final int DEFAULT_HASH_TABLE_SIZE = 16;
@@ -9,22 +10,51 @@ public class HashSet<T> implements Set<T> {
 	private int size;
 
 	private class HashSetIterator implements Iterator<T> {
+		Iterator<T> current;
+		Iterator<T> prev;
+		int indexTable = 0;
+		boolean flNext = false;
 
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
+			return current != null;
 		}
 
 		@Override
 		public T next() {
-			// TODO Auto-generated method stub
-			return null;
+			if (!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			if (current == null || !hasNext()) {
+				Iterator<T> itr = null;
+				while (itr == null) {
+					LinkedList<T> list = getLinkedList();
+					itr = list.iterator();
+//					indexTable++;
+				}
+				current = itr;
+			}
+			T currentNumber = current.next();
+			prev = current;
+			flNext = true;
+			return currentNumber;
+		}
+
+		private LinkedList<T> getLinkedList() {
+			while (indexTable < hashTable.length && hashTable[indexTable] == null) {
+				indexTable++;
+			}
+			return hashTable[indexTable];
 		}
 
 		@Override
 		public void remove() {
-			// TODO
+			if (!flNext) {
+				throw new IllegalStateException();
+			}
+			prev.remove();
+			flNext = false;
+			size--;
 		}
 	}
 
@@ -97,27 +127,28 @@ public class HashSet<T> implements Set<T> {
 		int index = getHashTableIndex(pattern);
 		return hashTable[index] != null && hashTable[index].contains(pattern);
 	}
-
-	@Override
-	// FIXME method should be removed after writing iterator
-	public T[] toArray(T[] arr) {
-		int size = size();		
-		if (arr.length < size) {
-			arr = Arrays.copyOf(arr, size);
-		}
-		int index = 0;
-		for (int i = 0; i < hashTable.length; i++) {
-			LinkedList<T> list = hashTable[i];
-			if (list != null) {
-				for (T obj : list) {
-					arr[index++] = obj;
-				}
-			}
-			if (arr.length > size) {
-				arr[size] = null;
-			}
-		}
-		return arr;
-
-	}
 }
+//	@Override
+	// FIXME method should be removed after writing iterator
+//	public T[] toArray(T[] arr) {
+//		int size = size();
+//		if (arr.length < size) {
+//			arr = Arrays.copyOf(arr, size);
+//		}
+//		int index = 0;
+//		for (int i = 0; i < hashTable.length; i++) {
+//			LinkedList<T> list = hashTable[i];
+//			if (list != null) {
+//				for (T obj : list) {
+//					arr[index++] = obj;
+//				}
+//			}
+//			if (arr.length > size) {
+//				arr[size] = null;
+//			}
+//		}
+//		return arr;
+//
+//	}
+//
+//}
