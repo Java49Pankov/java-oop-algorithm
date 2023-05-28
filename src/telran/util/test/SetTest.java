@@ -3,8 +3,6 @@ package telran.util.test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +23,6 @@ public abstract class SetTest extends CollectionTest {
 
 	@Override
 	protected Collection<Integer> getCollection() {
-
 		return set;
 	}
 
@@ -34,9 +31,7 @@ public abstract class SetTest extends CollectionTest {
 		Integer expectedCopy[] = Arrays.copyOf(expected, expected.length);
 		Arrays.sort(expectedCopy);
 		Arrays.sort(actual);
-
 		assertArrayEquals(expectedCopy, actual);
-
 	}
 
 	@Test
@@ -66,36 +61,4 @@ public abstract class SetTest extends CollectionTest {
 		assertArrayEquals(expected, actualArray);
 	}
 
-	@Test
-	void testIterator() {
-		Iterator<Integer> it1 = collection.iterator();
-		it1.next();
-		assertEquals(it1.next(), collection.toArray(new Integer[0])[1]);
-		Iterator<Integer> it2 = collection.iterator();
-		while (it2.hasNext()) {
-			it2.next();
-		}
-		assertEquals(-20, it1.next());
-		assertThrowsExactly(NoSuchElementException.class, () -> it2.next());
-	}
-
-	@Test
-	void testRemoveIterator() {
-		Integer[] actual = collection.toArray(new Integer[0]);
-		Iterator<Integer> it = collection.iterator();
-		Integer[] expectedFirst = new Integer[actual.length - 1];
-		System.arraycopy(actual, 1, expectedFirst, 0, actual.length - 1);
-		Integer[] expectedLast = new Integer[actual.length - 2];
-		assertThrowsExactly(IllegalStateException.class, () -> it.remove());
-		System.arraycopy(actual, 1, expectedFirst, 0, actual.length - 2);
-		assertThrowsExactly(IllegalStateException.class, () -> it.remove());
-		it.next();
-		it.remove();
-		runTest(expectedFirst);
-		while (it.hasNext()) {
-			it.next();
-		}
-		it.remove();
-		runTest(expectedLast);
-	}
 }

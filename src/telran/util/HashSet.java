@@ -10,14 +10,34 @@ public class HashSet<T> implements Set<T> {
 	private int size;
 
 	private class HashSetIterator implements Iterator<T> {
-		Iterator<T> current;
-		Iterator<T> prev;
-		int indexTable = 0;
+		Integer currentIteratorIndex;
+		Iterator<T> currentIterator;
+		Iterator<T> prevIterator;
 		boolean flNext = false;
+
+		HashSetIterator() {
+			initialState();
+		}
+
+		private void initialState() {
+			currentIteratorIndex = getCurrentIteratorIndex(-1);
+			if (currentIteratorIndex > -1) {
+				currentIterator = hashTable[currentIteratorIndex].iterator();
+			}
+		}
+
+		private int getCurrentIteratorIndex(int currentIndex) {
+			currentIndex++;
+			while (currentIndex < hashTable.length
+					&& (hashTable[currentIndex] == null || hashTable[currentIndex].size() == 0)) {
+				currentIndex++;
+			}
+			return currentIndex < hashTable.length ? currentIndex : -1;
+		}
 
 		@Override
 		public boolean hasNext() {
-			return current != null;
+			return currentIteratorIndex >= 0;
 		}
 
 		@Override
@@ -25,26 +45,20 @@ public class HashSet<T> implements Set<T> {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
 			}
-			if (current == null || !hasNext()) {
-				Iterator<T> itr = null;
-				while (itr == null) {
-					LinkedList<T> list = getLinkedList();
-					itr = list.iterator();
-//					indexTable++;
-				}
-				current = itr;
-			}
-			T currentNumber = current.next();
-			prev = current;
+			T res = currentIterator.next();
+			prevIterator = currentIterator;
+			updateState();
 			flNext = true;
-			return currentNumber;
+			return res;
 		}
 
-		private LinkedList<T> getLinkedList() {
-			while (indexTable < hashTable.length && hashTable[indexTable] == null) {
-				indexTable++;
+		private void updateState() {
+			if (!currentIterator.hasNext()) {
+				currentIteratorIndex = getCurrentIteratorIndex(currentIteratorIndex);
+				if (currentIteratorIndex >= 0) {
+					currentIterator = hashTable[currentIteratorIndex].iterator();
+				}
 			}
-			return hashTable[indexTable];
 		}
 
 		@Override
@@ -52,10 +66,11 @@ public class HashSet<T> implements Set<T> {
 			if (!flNext) {
 				throw new IllegalStateException();
 			}
-			prev.remove();
-			flNext = false;
+			prevIterator.remove();
 			size--;
+			flNext = false;
 		}
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -117,7 +132,9 @@ public class HashSet<T> implements Set<T> {
 		int index = getHashTableIndex(pattern);
 		if (hashTable[index] != null) {
 			res = hashTable[index].remove(pattern);
-			size--;
+			if (res) {
+				size--;
+			}
 		}
 		return res;
 	}
@@ -127,28 +144,5 @@ public class HashSet<T> implements Set<T> {
 		int index = getHashTableIndex(pattern);
 		return hashTable[index] != null && hashTable[index].contains(pattern);
 	}
+
 }
-//	@Override
-	// FIXME method should be removed after writing iterator
-//	public T[] toArray(T[] arr) {
-//		int size = size();
-//		if (arr.length < size) {
-//			arr = Arrays.copyOf(arr, size);
-//		}
-//		int index = 0;
-//		for (int i = 0; i < hashTable.length; i++) {
-//			LinkedList<T> list = hashTable[i];
-//			if (list != null) {
-//				for (T obj : list) {
-//					arr[index++] = obj;
-//				}
-//			}
-//			if (arr.length > size) {
-//				arr[size] = null;
-//			}
-//		}
-//		return arr;
-//
-//	}
-//
-//}
