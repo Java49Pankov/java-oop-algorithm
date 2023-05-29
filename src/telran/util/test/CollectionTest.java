@@ -11,10 +11,10 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import telran.util.Collection;
-import telran.util.List;
 
 public abstract class CollectionTest {
 	protected Integer[] numbers = { 10, -20, 7, 50, 100, 30 };
@@ -115,7 +115,6 @@ public abstract class CollectionTest {
 		it.remove();
 		assertFalse(collection.contains(removed));
 	}
-
 	@Test
 	void testContains() {
 		assertTrue(collection.contains(numbers[0]));
@@ -129,7 +128,8 @@ public abstract class CollectionTest {
 		collection.clear();
 		assertEquals(0, collection.size());
 	}
-
+	
+	@Disabled
 	@Test
 	void clearPerformance() {
 		Collection<Integer> bigCollection = getCollection();

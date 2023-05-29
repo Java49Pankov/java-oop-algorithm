@@ -21,6 +21,10 @@ public class TreeSet<T> implements Set<T> {
 	private Comparator<T> comp;
 	private int size;
 
+	public TreeSet(Comparator<T> comparator) {
+		this.comp = comparator;
+	}
+
 	private class TreeSetIterator implements Iterator<T> {
 		Node<T> current;
 		Node<T> prev;
@@ -119,6 +123,7 @@ public class TreeSet<T> implements Set<T> {
 			res = node;
 		}
 		return res;
+
 	}
 
 	private Node<T> getParent(T obj) {
@@ -141,13 +146,51 @@ public class TreeSet<T> implements Set<T> {
 		Node<T> node = getNode(pattern);
 		if (node != null) {
 			removeNode(node);
+			res = true;
 		}
+
 		return res;
 	}
 
 	private void removeNode(Node<T> node) {
-		// TODO Auto-generated method stub
+		if (node.left == null) {
+			if (node.parent == null) {
+				root = node.right;
+			} else {
+				node = getRightChild(node);
+			}
+		} else if (node.right == null) {
+			if (node.parent == null) {
+				root = node.left;
+			} else {
+				node = getLeftChild(node);
+			}
+		}
 		size--;
+	}
+
+	private Node<T> getLeftChild(Node<T> node) {
+		if (node == node.parent.left) {
+			node.parent.left = node.left;
+		} else {
+			node.parent.right = node.left;
+		}
+		if (node.left != null) {
+			node.left.parent = node.parent;
+		}
+		return node;
+	}
+
+	private Node<T> getRightChild(Node<T> node) {
+		if (node == node.parent.right) {
+			node.parent.right = node.right;
+		} else {
+			node.parent.left = node.right;
+		}
+		if (node.right != null) {
+			node.right.parent = node.parent;
+		}
+		return node;
 	}
 
 	@Override
