@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 public class Range implements Iterable<Integer> {
 	private int min;
 	private int max;
-	private List<Integer> removedList = new LinkedList<>();
+	private Collection<Integer> removedList = new HashSet<>();
 
 	public Range(int min, int max) {
 		if (min >= max) {

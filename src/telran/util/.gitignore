@@ -8,3 +8,6 @@
 /HashSet.class
 /Set.class
 /HashSet$HashSetIterator.class
+/TreeSet.class
+/TreeSet$TreeSetIterator.class
+/TreeSet$Node.class
