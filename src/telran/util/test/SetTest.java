@@ -31,6 +31,7 @@ public abstract class SetTest extends CollectionTest {
 		Integer expectedCopy[] = Arrays.copyOf(expected, expected.length);
 		Arrays.sort(expectedCopy);
 		Arrays.sort(actual);
+		assertEquals(expectedCopy.length, actual.length); 
 		assertArrayEquals(expectedCopy, actual);
 	}
 

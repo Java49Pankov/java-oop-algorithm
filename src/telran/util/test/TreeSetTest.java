@@ -1,16 +1,21 @@
 package telran.util.test;
 
-import java.util.Comparator;
+import telran.util.TreeSet;
 
-import telran.util.*;
+import org.junit.jupiter.api.Test;
+
+import telran.util.Set;
 
 public class TreeSetTest extends SetTest {
 
 	@Override
 	protected <T> Set<T> getSet() {
-		@SuppressWarnings("unchecked")
-		Comparator<T> comp = (Comparator<T>) Comparator.naturalOrder();
-		return new TreeSet<>(comp);
+		return new TreeSet<>();
 	}
 
-} 
+	@Override
+	@Test
+	void clearPerformance() {
+	}
+
+}

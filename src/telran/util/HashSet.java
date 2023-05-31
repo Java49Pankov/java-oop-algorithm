@@ -1,6 +1,5 @@
 package telran.util;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -32,7 +31,7 @@ public class HashSet<T> implements Set<T> {
 					&& (hashTable[currentIndex] == null || hashTable[currentIndex].size() == 0)) {
 				currentIndex++;
 			}
-			return currentIndex < hashTable.length ? currentIndex : -1;
+			return currentIndex < hashTable.length ? currentIndex : -1; 
 		}
 
 		@Override
@@ -76,7 +75,7 @@ public class HashSet<T> implements Set<T> {
 	@SuppressWarnings("unchecked")
 	public HashSet(int hashTableSize) {
 		hashTable = new LinkedList[hashTableSize];
-	}
+	} 
 
 	public HashSet() {
 		this(DEFAULT_HASH_TABLE_SIZE);
@@ -113,7 +112,7 @@ public class HashSet<T> implements Set<T> {
 		HashSet<T> tmp = new HashSet<>(hashTable.length * 2);
 		for (int i = 0; i < hashTable.length; i++) {
 			if (hashTable[i] != null) {
-				for (T obj : hashTable[i]) {
+				for (T obj: hashTable[i]) {
 					tmp.add(obj);
 				}
 			}

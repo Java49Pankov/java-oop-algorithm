@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class TreeSet<T> implements Set<T> {
-
 	private static class Node<T> {
 		T obj;
 		Node<T> parent;
@@ -21,8 +20,13 @@ public class TreeSet<T> implements Set<T> {
 	private Comparator<T> comp;
 	private int size;
 
-	public TreeSet(Comparator<T> comparator) {
-		this.comp = comparator;
+	public TreeSet(Comparator<T> comp) {
+		this.comp = comp;
+	}
+
+	@SuppressWarnings("unchecked")
+	public TreeSet() {
+		this((Comparator<T>) Comparator.naturalOrder());
 	}
 
 	private class TreeSetIterator implements Iterator<T> {
@@ -123,7 +127,6 @@ public class TreeSet<T> implements Set<T> {
 			res = node;
 		}
 		return res;
-
 	}
 
 	private Node<T> getParent(T obj) {
@@ -148,49 +151,49 @@ public class TreeSet<T> implements Set<T> {
 			removeNode(node);
 			res = true;
 		}
-
 		return res;
 	}
 
 	private void removeNode(Node<T> node) {
-		if (node.left == null) {
-			if (node.parent == null) {
-				root = node.right;
-			} else {
-				node = getRightChild(node);
-			}
-		} else if (node.right == null) {
-			if (node.parent == null) {
-				root = node.left;
-			} else {
-				node = getLeftChild(node);
-			}
+		if (node.left != null && node.right != null) {
+			removeJunction(node);
+		} else {
+			removeNonJunction(node);
 		}
 		size--;
 	}
 
-	private Node<T> getLeftChild(Node<T> node) {
-		if (node == node.parent.left) {
-			node.parent.left = node.left;
-		} else {
-			node.parent.right = node.left;
-		}
-		if (node.left != null) {
-			node.left.parent = node.parent;
+	private void removeJunction(Node<T> node) {
+		Node<T> substitute = getMostNodeFrom(node.left);
+		node.obj = substitute.obj;
+		removeNonJunction(substitute);
+	}
+
+	private Node<T> getMostNodeFrom(Node<T> node) {
+		while (node.right != null) {
+			node = node.right;
 		}
 		return node;
 	}
 
-	private Node<T> getRightChild(Node<T> node) {
-		if (node == node.parent.right) {
-			node.parent.right = node.right;
+	private void removeNonJunction(Node<T> node) {
+		Node<T> parent = node.parent;
+		Node<T> child = node.left == null ? node.right : node.left;
+		if (parent == null) {
+			root = child;
 		} else {
-			node.parent.left = node.right;
+			if (node == parent.left) {
+				parent.left = child;
+			} else {
+				parent.right = child;
+			}
 		}
-		if (node.right != null) {
-			node.right.parent = node.parent;
+		if (child != null) {
+			child.parent = parent;
 		}
-		return node;
+		node.obj = null;
+		node.left = null;
+		node.right = null;
 	}
 
 	@Override
