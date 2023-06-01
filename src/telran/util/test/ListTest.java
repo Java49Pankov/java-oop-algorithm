@@ -2,6 +2,8 @@ package telran.util.test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+
 import org.junit.jupiter.api.Test;
 
 import telran.util.*;
@@ -21,7 +23,7 @@ abstract class ListTest extends CollectionTest {
 		Integer[] expected0_500 = { 500, 10, -20, 7, 50, 100, 30 };
 		Integer[] expected0_500_3_700 = { 500, 10, -20, 700, 7, 50, 100, 30 };
 		Integer[] expected0_500_3_700_8_300 = { 500, 10, -20, 700, 7, 50, 100, 30, 300 };
-		list.add(0, 500);		
+		list.add(0, 500);
 		runTest(expected0_500);
 		list.add(3, 700);
 		runTest(expected0_500_3_700);
@@ -136,7 +138,15 @@ abstract class ListTest extends CollectionTest {
 		}
 		return res;
 	}
-	
-	
+
+	@Override
+	protected Integer[] getActual(Integer[] array, int size) {
+		return array;
+	}
+
+	@Override
+	protected Integer[] getExpected(Integer[] array) {
+		return array;
+	}
 
 }

@@ -4,7 +4,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class TreeSet<T> implements Set<T> {
+import telran.util.test.SortedSet;
+
+public class TreeSet<T> implements SortedSet<T> {
 	private static class Node<T> {
 		T obj;
 		Node<T> parent;
@@ -13,6 +15,13 @@ public class TreeSet<T> implements Set<T> {
 
 		Node(T obj) {
 			this.obj = obj;
+		}
+
+		void setNulls() {
+			parent = null;
+			left = null;
+			right = null;
+			obj = null;
 		}
 	}
 
@@ -191,9 +200,7 @@ public class TreeSet<T> implements Set<T> {
 		if (child != null) {
 			child.parent = parent;
 		}
-		node.obj = null;
-		node.left = null;
-		node.right = null;
+		node.setNulls();
 	}
 
 	@Override
@@ -204,6 +211,30 @@ public class TreeSet<T> implements Set<T> {
 	@Override
 	public Iterator<T> iterator() {
 		return new TreeSetIterator();
+	}
+
+	@Override
+	public T first() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T last() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T ceiling(T key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public T floor(T key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
