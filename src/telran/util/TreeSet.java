@@ -4,8 +4,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import telran.util.test.SortedSet;
-
 public class TreeSet<T> implements SortedSet<T> {
 	private static class Node<T> {
 		T obj;
@@ -118,6 +116,14 @@ public class TreeSet<T> implements SortedSet<T> {
 		return current;
 	}
 
+	private Node<T> getMost(Node<T> node) {
+		Node<T> current = node;
+		while (current.right != null) {
+			current = current.right;
+		}
+		return current;
+	}
+
 	private Node<T> getNodeParent(T obj) {
 		Node<T> current = root;
 		Node<T> parent = null;
@@ -215,26 +221,47 @@ public class TreeSet<T> implements SortedSet<T> {
 
 	@Override
 	public T first() {
-		// TODO Auto-generated method stub
-		return null;
+		if (root == null) {
+			throw new NoSuchElementException();
+		}
+		return getLeast(root).obj;
 	}
 
 	@Override
 	public T last() {
-		// TODO Auto-generated method stub
-		return null;
+		if (root == null) {
+			throw new NoSuchElementException();
+		}
+		return getMost(root).obj;
 	}
 
 	@Override
 	public T ceiling(T key) {
-		// TODO Auto-generated method stub
-		return null;
+		if (key == null) {
+			throw new NullPointerException();
+		}
+		Node<T> elem = getNodeParent(key);
+		int compRes = comp.compare(key, elem.obj);
+		if (compRes > 0) {
+			elem = getGreaterParent(elem);
+		}
+		return elem == null ? null : elem.obj;
 	}
 
 	@Override
 	public T floor(T key) {
-		// TODO Auto-generated method stub
-		return null;
+		if (key == null) {
+			throw new NullPointerException();
+		}
+		Node<T> elem = getNodeParent(key);
+		int compRes = comp.compare(key, elem.obj);
+		Node<T> parent = elem.parent;
+		if (compRes < 0) {
+			while (parent != null && parent.left == elem) {
+				elem = parent.parent;
+			}
+		}
+		return elem == null ? null : elem.obj;
 	}
 
 }
