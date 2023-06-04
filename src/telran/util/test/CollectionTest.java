@@ -150,8 +150,9 @@ public abstract class CollectionTest {
 		assertEquals(0, bigCollection.size());
 	}
 
-	protected void runTest(Integer[] expected) {
-		Integer[] actual = collection.toArray(new Integer[0]);
+	protected void runTest(Integer[] expectedP) {
+		Integer[] actual = getActual(collection.toArray(new Integer[0]), collection.size());	
+		Integer expected[] = getExpected(expectedP);
 		assertArrayEquals(expected, actual);
 	}
 }

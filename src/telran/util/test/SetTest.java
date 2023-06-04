@@ -39,13 +39,13 @@ public abstract class SetTest extends CollectionTest {
 		return result;
 	}
 
-	protected void runTest(Integer[] expected) {
-		Integer[] actual = collection.toArray(new Integer[0]);
-		Integer expectedCopy[] = Arrays.copyOf(expected, expected.length);
-		Arrays.sort(expectedCopy);
-		Arrays.sort(actual);
-		assertEquals(expectedCopy.length, actual.length);
-		assertArrayEquals(expectedCopy, actual);
-	}
+//	protected void runTest(Integer[] expected) {
+//		Integer[] actual = collection.toArray(new Integer[0]);
+//		Integer expectedCopy[] = Arrays.copyOf(expected, expected.length);
+//		Arrays.sort(expectedCopy);
+//		Arrays.sort(actual);
+//		assertEquals(expectedCopy.length, actual.length);
+//		assertArrayEquals(expectedCopy, actual);
+//	}
 
 }

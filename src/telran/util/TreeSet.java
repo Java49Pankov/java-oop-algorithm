@@ -116,14 +116,6 @@ public class TreeSet<T> implements SortedSet<T> {
 		return current;
 	}
 
-	private Node<T> getMost(Node<T> node) {
-		Node<T> current = node;
-		while (current.right != null) {
-			current = current.right;
-		}
-		return current;
-	}
-
 	private Node<T> getNodeParent(T obj) {
 		Node<T> current = root;
 		Node<T> parent = null;
@@ -142,6 +134,7 @@ public class TreeSet<T> implements SortedSet<T> {
 			res = node;
 		}
 		return res;
+
 	}
 
 	private Node<T> getParent(T obj) {
@@ -176,6 +169,7 @@ public class TreeSet<T> implements SortedSet<T> {
 			removeNonJunction(node);
 		}
 		size--;
+
 	}
 
 	private void removeJunction(Node<T> node) {
@@ -224,7 +218,11 @@ public class TreeSet<T> implements SortedSet<T> {
 		if (root == null) {
 			throw new NoSuchElementException();
 		}
-		return getLeast(root).obj;
+		T res = null;
+		if (root != null) {
+			res = getLeast(root).obj;
+		}
+		return res;
 	}
 
 	@Override
@@ -232,36 +230,34 @@ public class TreeSet<T> implements SortedSet<T> {
 		if (root == null) {
 			throw new NoSuchElementException();
 		}
-		return getMost(root).obj;
+		T res = null;
+		if (root != null) {
+			res = getMostNodeFrom(root).obj;
+		}
+		return res;
+	}
+
+	
+	@Override
+	public T floor(T element) {
+		return floorCeiling(element, true);
 	}
 
 	@Override
-	public T ceiling(T key) {
-		if (key == null) {
-			throw new NullPointerException();
-		}
-		Node<T> elem = getNodeParent(key);
-		int compRes = comp.compare(key, elem.obj);
-		if (compRes > 0) {
-			elem = getGreaterParent(elem);
-		}
-		return elem == null ? null : elem.obj;
+	public T ceiling(T element) {
+		return floorCeiling(element, false);
 	}
 
-	@Override
-	public T floor(T key) {
-		if (key == null) {
-			throw new NullPointerException();
-		}
-		Node<T> elem = getNodeParent(key);
-		int compRes = comp.compare(key, elem.obj);
-		Node<T> parent = elem.parent;
-		if (compRes < 0) {
-			while (parent != null && parent.left == elem) {
-				elem = parent.parent;
+	private T floorCeiling(T pattern, boolean isFloor) {
+		T res = null;
+		int compRes = 0;
+		Node<T> current = root;
+		while (current != null && (compRes = comp.compare(pattern, current.obj)) != 0) {
+			if ((compRes < 0 && !isFloor) || (compRes > 0 && isFloor)) {
+				res = current.obj;
 			}
+			current = compRes < 0 ? current.left : current.right;
 		}
-		return elem == null ? null : elem.obj;
+		return current == null ? res : current.obj;
 	}
-
 }
