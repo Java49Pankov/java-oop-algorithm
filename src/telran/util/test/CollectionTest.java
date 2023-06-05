@@ -88,8 +88,7 @@ public abstract class CollectionTest {
 	}
 
 	@Test
-	void testToArrayForEmptyArray() {
-		
+	void testToArrayForEmptyArray() {		
 		Integer actualArray[] = getActual(collection.toArray(new Integer[0]), collection.size());
 		Integer expected[] = getExpected(numbers);
 		assertArrayEquals(expected, actualArray);

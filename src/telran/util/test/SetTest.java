@@ -31,21 +31,11 @@ public abstract class SetTest extends CollectionTest {
 		Arrays.sort(array, 0, size);
 		return array;
 	}
-	
+
 	@Override
 	protected Integer[] getExpected(Integer[] array) {
 		Integer[] result = Arrays.copyOf(array, array.length);
 		Arrays.sort(result);
 		return result;
 	}
-
-//	protected void runTest(Integer[] expected) {
-//		Integer[] actual = collection.toArray(new Integer[0]);
-//		Integer expectedCopy[] = Arrays.copyOf(expected, expected.length);
-//		Arrays.sort(expectedCopy);
-//		Arrays.sort(actual);
-//		assertEquals(expectedCopy.length, actual.length);
-//		assertArrayEquals(expectedCopy, actual);
-//	}
-
 }

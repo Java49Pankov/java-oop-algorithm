@@ -218,11 +218,8 @@ public class TreeSet<T> implements SortedSet<T> {
 		if (root == null) {
 			throw new NoSuchElementException();
 		}
-		T res = null;
-		if (root != null) {
-			res = getLeast(root).obj;
-		}
-		return res;
+		return getLeast(root).obj;
+
 	}
 
 	@Override
@@ -230,14 +227,9 @@ public class TreeSet<T> implements SortedSet<T> {
 		if (root == null) {
 			throw new NoSuchElementException();
 		}
-		T res = null;
-		if (root != null) {
-			res = getMostNodeFrom(root).obj;
-		}
-		return res;
+		return getMostNodeFrom(root).obj;
 	}
 
-	
 	@Override
 	public T floor(T element) {
 		return floorCeiling(element, true);
