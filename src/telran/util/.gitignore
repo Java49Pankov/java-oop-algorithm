@@ -4,7 +4,7 @@
 /ArrayList$ArrayListIterator.class
 /LinkedList$LinkedListIterator.class
 /Range$RangeIterator.class
-
+/ArrayList.class
 /HashSet.class
 /Set.class
 /HashSet$HashSetIterator.class
@@ -12,3 +12,6 @@
 /TreeSet$TreeSetIterator.class
 /TreeSet$Node.class
 /SortedSet.class
+/Collection.class
+List.class
+Range$RangeIterator.class

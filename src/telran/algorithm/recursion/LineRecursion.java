@@ -13,18 +13,24 @@ public class LineRecursion {
 	}
 
 	public static long pow(int a, int b) {
-		// a - any number
-		// b - any positive number
-		// TODO HW #18
-		// Limitations:
-		// 1. no cycles
-		// 2. only + or - for arithmetic operations
 		if (b < 0) {
 			throw new IllegalArgumentException("Cannot be negative value");
 		}
 		long res = 1;
 		if (b > 0) {
-			res = a * pow(a, b - 1);// a^b = a * a^(b-1)
+			res = power(a, pow(a, b - 1));
+		}
+		return res;
+	}
+
+	private static long power(int a, long i) {
+		long res = 0;
+		if (i < 0) {
+			a = -a;
+			i = -i;
+		}
+		if (i > 0) {
+			res = a + power(a, i - 1);
 		}
 		return res;
 	}
@@ -57,23 +63,43 @@ public class LineRecursion {
 	}
 
 	public static long square(int x) {
-		// TODO
-		// x any number
-		// no cycles
-		// only operation +;
-		// no additional function
-		// no static fields
-		return 0;
+		long res = 0;
+		if (x < 0) {
+			x = -x;
+		}
+		if (x > 0) {
+			res = x + x - 1 + square(x - 1);
+		}
+		return res;
+	}
+
+	public static long square1(int x) {
+		if (x == 1) {
+			return 1;
+		}
+		return x < 0 ? square1(-x) : x + x - 1 + square1(x - 1);
 	}
 
 	public static boolean isSubstring(String string, String substr) {
-//TODO  write function
-// returns true if a given 'substr' is indeed the 
-//substring of a given `string`
-		/*
-		 * Challenges: 1. To apply only following methods of the class String: charAt(
-		 * intind); String substring( int ind); intlength(); 2. No cycles;
-		 */
-		return false;
+		boolean res = false;
+		if (string.length() == 0 && substr.length() != 0) {
+			res = false;
+		} else if (string.length() != 0 && substr.length() == 0) {
+			res = true;
+		} else if (string.length() >= substr.length()) {
+			res = string.charAt(0) == substr.charAt(0) ? isSubstr(string, substr, 0, 0)
+					: isSubstring(string.substring(1), substr);
+		}
+		return res;
+	}
+
+	private static boolean isSubstr(String string, String substr, int strIndex, int substrIndex) {
+		boolean res = false;
+		if (substrIndex == substr.length()) {
+			res = true;
+		} else if (string.charAt(strIndex) == substr.charAt(substrIndex)) {
+			res = isSubstr(string, substr, strIndex + 1, substrIndex + 1);
+		}
+		return res;
 	}
 }

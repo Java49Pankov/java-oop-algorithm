@@ -50,7 +50,30 @@ class LineRecursionTest {
 		int expected1[] = { 7, 6, 5, 4, 3, 2, 1 };
 		assertArrayEquals(expected, LineRecursion.reverse(array));
 		assertArrayEquals(expected1, LineRecursion.reverse(array1));
-	}  
-	
+	}
+
+	@Test
+	void squareTest() {
+		assertEquals(4, LineRecursion.square(2));
+		assertEquals(9, LineRecursion.square(3));
+		assertEquals(25, LineRecursion.square(-5));
+		assertEquals(1, LineRecursion.square(1));
+		assertEquals(0, LineRecursion.square(0));
+		assertEquals(9, LineRecursion.square1(-3));
+		assertEquals(16, LineRecursion.square1(4));
+		assertEquals(0, LineRecursion.square1(0));
+	}
+
+	@Test
+	void isSubstringTest() {
+		assertTrue(LineRecursion.isSubstring("javaLearn", "ja"));
+		assertFalse(LineRecursion.isSubstring("javaLearn", "alen"));
+		assertTrue(LineRecursion.isSubstring("java", "va"));
+		assertFalse(LineRecursion.isSubstring("java", "jovo"));
+		assertFalse(LineRecursion.isSubstring("java", "jc"));
+		assertTrue(LineRecursion.isSubstring("java", ""));
+		assertFalse(LineRecursion.isSubstring("", "java"));
+
+	}
 
 }
