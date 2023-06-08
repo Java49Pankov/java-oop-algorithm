@@ -83,12 +83,12 @@ public abstract class CollectionTest {
 		for (int i = 0; i < size; i++) {
 			assertEquals(expected[i], actualArray[i]);
 		}
-		assertNull(actualArray[size]); 
+		assertNull(actualArray[size]);
 		assertTrue(bigArray == actualArray);
 	}
 
 	@Test
-	void testToArrayForEmptyArray() {		
+	void testToArrayForEmptyArray() {
 		Integer actualArray[] = getActual(collection.toArray(new Integer[0]), collection.size());
 		Integer expected[] = getExpected(numbers);
 		assertArrayEquals(expected, actualArray);
@@ -140,17 +140,29 @@ public abstract class CollectionTest {
 	@Test
 	void clearPerformance() {
 		Collection<Integer> bigCollection = getCollection();
-		Random gen = new Random();
-		for (int i = 0; i < 1_000_000; i++) {
-//			bigCollection.add(i);
-			bigCollection.add(gen.nextInt());
-		}
+		int[] array = getRandomArray(1_000_000);
+		fillCollection(bigCollection, array);
 		bigCollection.clear();
 		assertEquals(0, bigCollection.size());
 	}
 
+	protected int[] getRandomArray(int length) {
+		Random gen = new Random();
+		int[] res = new int[length];
+		for (int i = 0; i < length; i++) {
+			res[i] = gen.nextInt();
+		}
+		return res;
+	}
+
+	protected void fillCollection(Collection<Integer> collection, int[] array) {
+		for (int num : array) {
+			collection.add(num);
+		}
+	}
+
 	protected void runTest(Integer[] expectedP) {
-		Integer[] actual = getActual(collection.toArray(new Integer[0]), collection.size());	
+		Integer[] actual = getActual(collection.toArray(new Integer[0]), collection.size());
 		Integer expected[] = getExpected(expectedP);
 		assertArrayEquals(expected, actual);
 	}

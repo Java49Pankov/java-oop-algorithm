@@ -87,7 +87,7 @@ public class LineRecursion {
 		} else if (string.length() != 0 && substr.length() == 0) {
 			res = true;
 		} else if (string.length() >= substr.length()) {
-			res = string.charAt(0) == substr.charAt(0) ? isSubstr(string, substr, 0, 0)
+			res = string.charAt(0) == substr.charAt(0) ? isSubstr(string, substr, 1, 1)
 					: isSubstring(string.substring(1), substr);
 		}
 		return res;
