@@ -23,15 +23,6 @@ public class TreeSet<T> implements SortedSet<T> {
 		}
 	}
 
-	private class ReverseComparator implements Comparator<Integer> {
-
-		@Override
-		public int compare(Integer o1, Integer o2) {
-			return o2.compareTo(o1);
-		}
-	}
-
-	private Comparator<T> compReverse;
 	private Node<T> root;
 	private Comparator<T> comp;
 	private int size;
@@ -62,7 +53,6 @@ public class TreeSet<T> implements SortedSet<T> {
 	@SuppressWarnings("unchecked")
 	public TreeSet() {
 		this((Comparator<T>) Comparator.naturalOrder());
-		this.compReverse = (Comparator<T>) new ReverseComparator();
 	}
 
 	private class TreeSetIterator implements Iterator<T> {
@@ -321,8 +311,8 @@ public class TreeSet<T> implements SortedSet<T> {
 	}
 
 	private void displayRoot(Node<T> root, int level) {
-//		System.out.print(" ".repeat(level * spacesPerLevel));
-//		System.out.println(root.obj);
+		System.out.print(" ".repeat(level * spacesPerLevel));
+		System.out.println(root.obj);
 
 	}
 
@@ -358,7 +348,7 @@ public class TreeSet<T> implements SortedSet<T> {
 	}
 
 	public void inversion() {
-		comp = compReverse;
+		comp = comp.reversed();
 		inversion(root);
 	}
 

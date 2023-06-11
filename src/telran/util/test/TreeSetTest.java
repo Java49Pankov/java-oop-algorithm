@@ -2,15 +2,15 @@ package telran.util.test;
 
 import telran.util.TreeSet;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Arrays;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import telran.util.ArrayList;
+import telran.util.List;
 import telran.util.Set;
 
 public class TreeSetTest extends SortedSetTest {
@@ -31,8 +31,8 @@ public class TreeSetTest extends SortedSetTest {
 //	@Override
 //	@Test
 //	void clearPerformance() {
+//		
 //	}
-
 	@Test
 	void displayTree() {
 		treeSet.setInitialLevel(5);
@@ -69,6 +69,7 @@ public class TreeSetTest extends SortedSetTest {
 			array[i] = i;
 		}
 		TreeSet<Integer> treeBalanced = new TreeSet<>();
+
 		balanceOrder(array);
 		fillCollection(treeBalanced, array);
 		assertEquals(height, treeBalanced.height());
@@ -76,30 +77,23 @@ public class TreeSetTest extends SortedSetTest {
 	}
 
 	private void balanceOrder(int[] array) {
-		int[] arrCopy = Arrays.copyOf(array, array.length);
-		balanceArrayOrder(array, arrCopy, 0, 0, array.length - 1);
-	}
-
-	private void balanceArrayOrder(int[] array, int[] arrCopy, int index, int left, int right) {
-		if (left <= right) {
-			int rootMiddle = (left + right) / 2;
-			array[index++] = arrCopy[rootMiddle];
-			balanceArrayOrder(array, arrCopy, index, left, rootMiddle - 1);
-			balanceArrayOrder(array, arrCopy, index + (rootMiddle - left), rootMiddle + 1, right);
+		List<Integer> list = new ArrayList<>();
+		balanceOrder(array, 0, array.length - 1, list);
+		int index = 0;
+		for (int num : list) {
+			array[index++] = num;
 		}
 	}
 
-	@Test
-	void simpleBalanceTest() {
-		int[] array = { 1, 2, 3, 4, 5, 6, 7 };
-		System.out.println("Before: " + Arrays.toString(array));
-		balanceOrder(array);
-		System.out.println("After: " + Arrays.toString(array));
-		int[] expected = { 4, 2, 1, 3, 6, 5, 7 };
-		assertArrayEquals(expected, array);
+	private void balanceOrder(int[] array, int left, int right, List<Integer> list) {
+		if (left <= right) {
+			int middle = (left + right) / 2;
+			list.add(array[middle]);
+			balanceOrder(array, left, middle - 1, list);
+			balanceOrder(array, middle + 1, right, list);
+		}
 	}
 
-	// { 10, -20, 7, 50, 100, 30 };
 	@Test
 	void inversionTreeTest() {
 		Integer[] expected = { 100, 50, 30, 10, 7, -20 };
@@ -107,5 +101,4 @@ public class TreeSetTest extends SortedSetTest {
 		assertArrayEquals(expected, treeSet.toArray(new Integer[0]));
 		assertTrue(treeSet.contains(100));
 	}
-
 }
