@@ -158,7 +158,7 @@ public abstract class CollectionTest {
 				collection.stream().filter(n -> n > 0 && n % 2 == 0).sorted().mapToInt(n -> n).toArray());
 	}
 
-	public static int[] getRandomArray(int length) {
+	protected int[] getRandomArray(int length) {
 		Random gen = new Random();
 		int[] res = new int[length];
 		for (int i = 0; i < length; i++) {

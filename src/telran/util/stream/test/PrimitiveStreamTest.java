@@ -8,7 +8,6 @@ import static telran.util.stream.PrimitiveStreams.*;
 import java.util.Arrays;
 
 import telran.util.*;
-import telran.util.test.CollectionTest;
 
 class PrimitiveStreamTest {
 
@@ -19,11 +18,14 @@ class PrimitiveStreamTest {
 
 	@Test
 	void shuffleTest() {
-		int[] array = CollectionTest.getRandomArray(20);
-		int[] arrNext = shuffler(array);
-		runUniqueTest(arrNext);
-		runArrayNotEqualTest(array, arrNext);
+		for (int i = 0; i < N_RUNS; i++) {
+			int[] array = randomUnique(N_NUMBERS, MIN_NUMBER, MAX_NUMBER);
+			runUniqueTest(array);
+			int[] arrShuffle = shuffler(array);
+			runArrayNotEqualTest(array, arrShuffle);
+		}
 	}
+	
 
 	@Test
 	void uniqueRandomTest() {
