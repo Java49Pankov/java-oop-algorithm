@@ -311,8 +311,8 @@ public class TreeSet<T> implements SortedSet<T> {
 	}
 
 	private void displayRoot(Node<T> root, int level) {
-		System.out.print(" ".repeat(level * spacesPerLevel));
-		System.out.println(root.obj);
+//		System.out.print(" ".repeat(level * spacesPerLevel));
+//		System.out.println(root.obj);
 
 	}
 

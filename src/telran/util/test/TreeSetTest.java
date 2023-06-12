@@ -30,9 +30,9 @@ public class TreeSetTest extends SortedSetTest {
 
 //	@Override
 //	@Test
-//	void clearPerformance() {
-//		
+//	void clearPerformance() {		
 //	}
+	
 	@Test
 	void displayTree() {
 		treeSet.setInitialLevel(5);

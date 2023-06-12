@@ -3,6 +3,8 @@ package telran.util;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public interface Collection<T> extends Iterable<T> {
 	boolean add(T obj);
@@ -46,6 +48,14 @@ public interface Collection<T> extends Iterable<T> {
 
 	default boolean isEqual(T object, T pattern) {
 		return pattern == null ? object == pattern : pattern.equals(object);
+	}
+
+	default Stream<T> stream() {
+		return StreamSupport.stream(spliterator(), false);
+	}
+
+	default Stream<T> parallelStream() {
+		return StreamSupport.stream(spliterator(), true);
 	}
 
 }
