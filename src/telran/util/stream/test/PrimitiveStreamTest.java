@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static telran.util.stream.PrimitiveStreams.*;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import telran.util.*;
 
@@ -18,14 +19,16 @@ class PrimitiveStreamTest {
 
 	@Test
 	void shuffleTest() {
-		for (int i = 0; i < N_RUNS; i++) {
-			int[] array = randomUnique(N_NUMBERS, MIN_NUMBER, MAX_NUMBER);
-			runUniqueTest(array);
-			int[] arrShuffle = shuffler(array);
-			runArrayNotEqualTest(array, arrShuffle);
+		int[] array = new Random().ints(100).sorted().toArray();
+		int[] arrayPrev = shuffle(array);
+		for (int i = 0; i < 100; i++) {
+			int[] arrayNext = shuffle(array);
+			runArrayNotEqualTest(arrayPrev, arrayNext);
+			Arrays.sort(arrayPrev);
+			assertArrayEquals(arrayPrev, array);
+			arrayPrev = arrayNext;
 		}
 	}
-	
 
 	@Test
 	void uniqueRandomTest() {
