@@ -5,6 +5,33 @@ import java.util.Objects;
 public interface Map<K, V> {
 	static class Entry<K, V> implements Comparable<Entry<K, V>> {
 
+		private K key; 
+		private V value;
+
+		public Entry(K key, V value) {
+			super();
+			this.key = key;
+			this.value = value;
+		}
+
+		public V getValue() {
+			return value;       
+		}
+
+		public void setValue(V value) {
+			this.value = value;
+		}
+
+		public K getKey() {
+			return key;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public int compareTo(Entry<K, V> obj) {
+			return ((Comparable<K>) key).compareTo(obj.key);
+		}
+
 		@Override
 		public int hashCode() {
 			return Objects.hash(key);
@@ -20,34 +47,7 @@ public interface Map<K, V> {
 				return false;
 			Entry other = (Entry) obj;
 			return Objects.equals(key, other.key);
-		}
-
-		public V getValue() {
-			return value;
-		}
-
-		public void setValue(V value) {
-			this.value = value;
-		}
-
-		public K getKey() {
-			return key;
-		}
-
-		public Entry(K key, V value) {
-			super();
-			this.key = key;
-			this.value = value;
-		}
-
-		private K key;
-		private V value;
-
-		@SuppressWarnings("unchecked")
-		@Override
-		public int compareTo(Entry<K, V> obj) {
-			return ((Comparable<K>) key).compareTo(obj.key);
-		}
+		}   
 	}
 
 	V get(K key);

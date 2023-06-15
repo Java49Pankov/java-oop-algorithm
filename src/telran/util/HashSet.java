@@ -14,7 +14,7 @@ public class HashSet<T> implements Set<T> {
 		Iterator<T> prevIterator;
 		boolean flNext = false;
 
-		HashSetIterator() {
+		HashSetIterator() {          
 			initialState();
 		}
 

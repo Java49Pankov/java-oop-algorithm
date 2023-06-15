@@ -1,7 +1,7 @@
 package telran.util;
 
 public abstract class AbstractMap<K, V> implements Map<K, V> {
-	protected Set<Map.Entry<K, V>> set;
+	protected Set<Entry<K, V>> set;
 
 	@Override
 	public V get(K key) {
@@ -24,20 +24,27 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 
 	@Override
 	public V remove(K key) {
-		// TODO
-		return null;
+		V res = get(key);
+		if (res != null) {
+			set.remove(new Entry<>(key, null));
+		}
+		return res;
 	}
 
 	@Override
 	public boolean containsKey(K key) {
-		// TODO Auto-generated method stub
-		return false;
+		return set.contains(new Entry<>(key, null));
 	}
 
 	@Override
 	public boolean containsValue(V value) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean res = false;
+		for (Entry<K, V> val : set) {
+			if (val.getValue().equals(value)) {
+				res = true;
+			}
+		}
+		return res;
 	}
 
 	@Override
@@ -51,8 +58,9 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 
 	@Override
 	public Collection<V> values() {
-		// TODO Auto-generated method stub
-		return null;
+		List<V> list = new ArrayList<>();
+		set.forEach(elem -> list.add(elem.getValue()));
+		return list;
 	}
 
 	@Override
