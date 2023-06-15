@@ -31,7 +31,7 @@ public class HashSet<T> implements Set<T> {
 					&& (hashTable[currentIndex] == null || hashTable[currentIndex].size() == 0)) {
 				currentIndex++;
 			}
-			return currentIndex < hashTable.length ? currentIndex : -1; 
+			return currentIndex < hashTable.length ? currentIndex : -1;
 		}
 
 		@Override
@@ -75,7 +75,7 @@ public class HashSet<T> implements Set<T> {
 	@SuppressWarnings("unchecked")
 	public HashSet(int hashTableSize) {
 		hashTable = new LinkedList[hashTableSize];
-	} 
+	}
 
 	public HashSet() {
 		this(DEFAULT_HASH_TABLE_SIZE);
@@ -112,7 +112,7 @@ public class HashSet<T> implements Set<T> {
 		HashSet<T> tmp = new HashSet<>(hashTable.length * 2);
 		for (int i = 0; i < hashTable.length; i++) {
 			if (hashTable[i] != null) {
-				for (T obj: hashTable[i]) {
+				for (T obj : hashTable[i]) {
 					tmp.add(obj);
 				}
 			}
@@ -142,6 +142,24 @@ public class HashSet<T> implements Set<T> {
 	public boolean contains(T pattern) {
 		int index = getHashTableIndex(pattern);
 		return hashTable[index] != null && hashTable[index].contains(pattern);
+	}
+
+	@Override
+	public T get(T pattern) {
+		T res = null;
+		int index = getHashTableIndex(pattern);
+		if (hashTable[index] != null) {
+			List<T> list = hashTable[index];
+			Iterator<T> itr = list.iterator();
+			while (itr.hasNext() && res == null) {
+				T obj = itr.next();
+				if (obj.equals(pattern)) {
+					res = obj;
+				}
+			}
+		}
+		return res;
+
 	}
 
 }

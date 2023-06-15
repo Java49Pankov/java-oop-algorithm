@@ -5,8 +5,9 @@
 /CollectionTest.class
 /HashSetTest.class
 /SetTest.class
-
 /TreeSetTest.class
 /SortedSet.class
 /SortedSetTest.class
-
+/HashMapTest.class
+/MapTest.class
+/TreeMapTest.class

@@ -15,3 +15,8 @@
 /Collection.class
 List.class
 Range$RangeIterator.class
+/AbstractMap.class
+/HashMap.class
+/Map$Entry.class
+/Map.class
+/TreeMap.class
