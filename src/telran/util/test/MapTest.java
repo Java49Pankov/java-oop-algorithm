@@ -6,7 +6,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import telran.util.Collection;
 import telran.util.Map;
+import telran.util.Map.Entry;
+import telran.util.Set;
 
 abstract class MapTest {
 	String[] keys = { "lmn", "abc", "ab", "a" };
@@ -29,16 +32,16 @@ abstract class MapTest {
 
 	@Test
 	void containsKeyTest() {
-		for (int i = 0; i < keys.length; i++) {
-			assertTrue(map.containsKey(keys[i]));
+		for (String key : keys) {
+			assertTrue(map.containsKey(key));
 		}
 		assertFalse(map.containsKey("cba"));
 	}
 
 	@Test
 	void containsValueTest() {
-		for (int i = 0; i < values.length; i++) {
-			assertTrue(map.containsValue(values[i]));
+		for (Integer value : values) {
+			assertTrue(map.containsValue(value));
 		}
 		assertFalse(map.containsValue(32));
 	}
@@ -71,10 +74,20 @@ abstract class MapTest {
 
 	@Test
 	void entryTest() {
+		Set<Entry<String, Integer>> entries = map.entrySet();
+		for (String keys : keys) {
+			Entry<String, Integer> entry = new Entry<>(keys, null);
+			assertEquals(map.get(keys), entries.get(entry).getValue());
+		}
 	}
 
 	@Test
 	void valuesTest() {
 		assertEquals(4, map.values().size());
+		Collection<Integer> collection = map.values();
+		for (Integer value : values) {
+			assertTrue(collection.contains(value));
+		}
+
 	}
 }
