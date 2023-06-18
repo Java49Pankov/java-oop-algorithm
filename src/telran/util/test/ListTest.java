@@ -28,7 +28,7 @@ abstract class ListTest extends CollectionTest {
 		list.add(3, 700);
 		runTest(expected0_500_3_700);
 		list.add(8, 300);
-		runTest(expected0_500_3_700_8_300); 
+		runTest(expected0_500_3_700_8_300);
 		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.add(-3, 3));
 		assertThrowsExactly(IndexOutOfBoundsException.class, () -> list.add(list.size() + 1, 3));
 	}

@@ -5,7 +5,7 @@ import java.util.Objects;
 public interface Map<K, V> {
 	static class Entry<K, V> implements Comparable<Entry<K, V>> {
 
-		private K key; 
+		private K key;
 		private V value;
 
 		public Entry(K key, V value) {
@@ -15,7 +15,7 @@ public interface Map<K, V> {
 		}
 
 		public V getValue() {
-			return value;       
+			return value;
 		}
 
 		public void setValue(V value) {
@@ -47,7 +47,7 @@ public interface Map<K, V> {
 				return false;
 			Entry other = (Entry) obj;
 			return Objects.equals(key, other.key);
-		}   
+		}
 	}
 
 	V get(K key);

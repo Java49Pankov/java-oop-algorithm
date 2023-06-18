@@ -6,6 +6,7 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	@Override
 	public V get(K key) {
 		Entry<K, V> entry = set.get(new Entry<>(key, null));
+
 		return entry == null ? null : entry.getValue();
 	}
 
@@ -23,34 +24,19 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	}
 
 	@Override
-	public V remove(K key) {
-		V res = get(key);
-		if (res != null) {
-			set.remove(new Entry<>(key, null));
-		}
-		return res;
-	}
-
-	@Override
 	public boolean containsKey(K key) {
-		return set.contains(new Entry<>(key, null));
+		return set.contains(new Entry<K, V>(key, null));
 	}
 
 	@Override
 	public boolean containsValue(V value) {
-		boolean res = false;
-		for (Entry<K, V> val : set) {
-			if (val.getValue().equals(value)) {
-				res = true;
-			}
-		}
-		return res;
+		return set.stream().anyMatch(e -> e.getValue().equals(value));
 	}
 
 	@Override
 	public Set<K> keySet() {
 		Set<K> res = getKeySet();
-		set.stream().map(elem -> elem.getKey()).forEach(key -> res.add(key));
+		set.stream().map(e -> e.getKey()).forEach(key -> res.add(key));
 		return res;
 	}
 
@@ -58,14 +44,25 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 
 	@Override
 	public Collection<V> values() {
-		List<V> list = new ArrayList<>();
-		set.forEach(elem -> list.add(elem.getValue()));
-		return list;
+		List<V> res = new ArrayList<V>();
+		set.stream().map(e -> e.getValue()).forEach(v -> res.add(v));
+		return res;
 	}
 
 	@Override
 	public Set<Entry<K, V>> entrySet() {
 		return set;
+	}
+
+	@Override
+	public V remove(K key) {
+		Entry<K, V> entry = set.get(new Entry<K, V>(key, null));
+		V res = null;
+		if (entry != null) {
+			res = entry.getValue();
+			set.remove(entry);
+		}
+		return res;
 	}
 
 }
