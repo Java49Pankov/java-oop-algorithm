@@ -6,7 +6,6 @@ public abstract class AbstractMap<K, V> implements Map<K, V> {
 	@Override
 	public V get(K key) {
 		Entry<K, V> entry = set.get(new Entry<>(key, null));
-
 		return entry == null ? null : entry.getValue();
 	}
 

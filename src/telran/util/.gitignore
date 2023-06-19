@@ -20,3 +20,7 @@ Range$RangeIterator.class
 /Map$Entry.class
 /Map.class
 /TreeMap.class
+/LinkedHashSet$LinkedHashSetIterator.class
+/LinkedHashSet$Node.class
+/LinkedHashSet.class
+/LinkedHashMap.class
