@@ -24,6 +24,7 @@ public class LinkedHashMapTest extends MapTest {
 	}
 
 	protected Entry<String, Integer>[] getEntriesExpected(Entry<String, Integer>[] entries) {
+		
 		return entries;
 	}
 
@@ -36,6 +37,7 @@ public class LinkedHashMapTest extends MapTest {
 	}
 
 	protected Integer[] getValuesActual(Integer[] values) {
+		
 		return values;
 	}
 }

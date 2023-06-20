@@ -32,7 +32,7 @@ abstract class MapTest {
 
 	@Test
 	void containsKeyTest() {
-		Arrays.stream(keys).forEach(k -> assertTrue(map.containsKey(k)));
+		Arrays.stream(keys).forEach(key -> assertTrue(map.containsKey(key)));
 		assertFalse(map.containsKey("12345"));
 	}
 
