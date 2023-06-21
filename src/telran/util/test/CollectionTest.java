@@ -29,8 +29,8 @@ public abstract class CollectionTest {
 	@BeforeEach
 	void setUp() {
 		collection = getCollection();
-		for (int i = 0; i < numbers.length; i++) {
-			collection.add(numbers[i]);
+		for(int num: numbers) {
+			collection.add(num);
 		}
 	}
 

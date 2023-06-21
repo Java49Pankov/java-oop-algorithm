@@ -45,12 +45,11 @@ public class LinkedHashSet<T> implements Set<T> {
 			if (!flNext) {
 				throw new IllegalStateException();
 			}
-			Node<T> removedNode = current != null ? current.prev : tail;			
-			removeNode(removedNode);
-			map.remove(removedNode.obj);
-			size--;
+			Node<T> nodeForRemove = current != null ? current.prev : tail;
+			LinkedHashSet.this.remove(nodeForRemove.obj);
 			flNext = false;
 		}
+
 	}
 
 	@Override
@@ -74,6 +73,7 @@ public class LinkedHashSet<T> implements Set<T> {
 			node.prev = tail;
 			tail = node;
 		}
+
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class LinkedHashSet<T> implements Set<T> {
 		if (node != null) {
 			res = true;
 			removeNode(node);
-			map.remove(node.obj);
+			map.remove(pattern);
 			size--;
 		}
 		return res;
@@ -102,7 +102,7 @@ public class LinkedHashSet<T> implements Set<T> {
 		} else {
 			removeMiddle(node);
 		}
-		
+
 	}
 
 	private void removeHead() {
@@ -112,6 +112,15 @@ public class LinkedHashSet<T> implements Set<T> {
 		}
 		head.next = null;
 		head = newHead;
+
+	}
+
+	private void removeMiddle(Node<T> node) {
+		Node<T> nodeBefore = node.prev;
+		Node<T> nodeAfter = node.next;
+		nodeBefore.next = nodeAfter;
+		nodeAfter.prev = nodeBefore;
+		node.next = node.prev = null;
 	}
 
 	private void removeTail() {
@@ -121,14 +130,6 @@ public class LinkedHashSet<T> implements Set<T> {
 		}
 		tail.prev = null;
 		tail = newTail;
-	}
-
-	private void removeMiddle(Node<T> node) {
-		Node<T> nodeBefore = node.prev;
-		Node<T> nodeAfter = node.next;
-		nodeBefore.next = nodeAfter;
-		nodeAfter.prev = nodeBefore;
-		node.next = node.prev = null;
 	}
 
 	@Override
