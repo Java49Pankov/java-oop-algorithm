@@ -1,0 +1,5 @@
+package telran.performance;
+
+public interface JoinStrings {
+	String join(String[] strings, String delimiter);
+}
