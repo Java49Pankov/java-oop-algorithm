@@ -1,6 +1,7 @@
 package telran.performance;
 
-abstract public class PerformanceTest {
+public abstract class PerformanceTest {
+
 	private String testName;
 	private int nRuns;
 
@@ -10,16 +11,17 @@ abstract public class PerformanceTest {
 		this.nRuns = nRuns;
 	}
 
-	protected abstract void runTest();
+	abstract protected void runTest();
 
 	public void run() {
-		long timestampStart = System.currentTimeMillis();
+		long start = System.currentTimeMillis();
 		for (int i = 0; i < nRuns; i++) {
 			runTest();
 		}
-		long timestampEnd = System.currentTimeMillis();
-		long runTime = timestampEnd - timestampStart;
-		System.out.println(
-				"Value of nRuns: " + nRuns + " Test name: " + testName + " Running time:" + runTime + " milliseconds");
+		displayInfo(start, System.currentTimeMillis());
+	}
+
+	private void displayInfo(long start, long finish) {
+		System.out.printf("\ntest %s; Number of the runs: %d; Running time: %dMs\n", testName, nRuns, finish - start);
 	}
 }
